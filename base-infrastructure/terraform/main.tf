@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "go_resource_group" {
-  name = "go-${var.environment}-rg"
+  name = "ifrctgos002rg"
   location = var.location
 }
 
@@ -28,6 +28,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
 
   tags = {
     Environment = var.environment
+    ManagedBy   = "IFRCGo"
   }
 }
 

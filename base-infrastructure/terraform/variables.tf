@@ -5,7 +5,7 @@ variable environment {
 }
 
 variable location {
-    type        = string
-    default     = "westeurope"
-    description = "defines the location to deploy to"
+  type        = string
+  default     = "westeurope"
+  description = "defines the location to deploy to"
 }

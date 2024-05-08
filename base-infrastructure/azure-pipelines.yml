@@ -1,0 +1,47 @@
+trigger:
+- main
+
+# no PR triggers
+pr: none
+
+resources:
+  repositories:
+  - repository: go-playground-deploy
+    type: github
+    endpoint: IFRCGo
+    name: IFRCGo/go-playground-deploy
+    ref: ${{ variables['Build.SourceBranchName'] }}
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+- job: 'Build'
+  steps:
+  - checkout: go-playground-deploy
+    displayName: "Checkout go-playground-deploy"
+    path: go-playground-deploy
+  
+  - task: TerraformInstaller@1
+    inputs:
+      terraformVersion: 'latest'
+    displayName: "Install Terraform"
+
+  # Deploy Terraform managed infrastructure to playground environment
+  - bash: $(Pipeline.Workspace)/go-playground-deploy/base-infrastructure/scripts/setup-infra.sh
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    displayName: "Deploy Playground Infrastructure"
+    env:
+      TF_VAR_environment: playground
+
+      # For azurerm backend
+      ARM_SUBSCRIPTION_ID: ${TERRAFORM_SUBSCRIPTION_ID}
+      ARM_TENANT_ID: ${TERRAFORM_TENANT_ID}
+      ARM_CLIENT_ID: ${TERRAFORM_SERVICE_PRINCIPAL_ID}
+      ARM_CLIENT_SECRET: ${TERRAFORM_SERVICE_PRINCIPAL_KEY}
+      ARM_ACCESS_KEY: ${TERRAFORM_STORAGE_KEY}
+
+      # For Azure CLI
+      AZURE_TENANT_ID: ${TERRAFORM_TENANT_ID}
+      AZURE_CLIENT_ID: ${TERRAFORM_SERVICE_PRINCIPAL_ID}
+      AZURE_CLIENT_SECRET: ${TERRAFORM_SERVICE_PRINCIPAL_KEY}
