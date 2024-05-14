@@ -6,10 +6,10 @@ pr: none
 
 resources:
   repositories:
-  - repository: go-playground-deploy
+  - repository: go-deploy-playground
     type: github
     endpoint: IFRCGo
-    name: IFRCGo/go-playground-deploy
+    name: IFRCGo/go-deploy-playground
     ref: ${{ variables['Build.SourceBranchName'] }}
 
 pool:
@@ -18,9 +18,9 @@ pool:
 jobs:
 - job: 'Build'
   steps:
-  - checkout: go-playground-deploy
-    displayName: "Checkout go-playground-deploy"
-    path: go-playground-deploy
+  - checkout: go-deploy-playground
+    displayName: "Checkout go-deploy-playground"
+    path: go-deploy-playground
   
   - task: TerraformInstaller@1
     inputs:
@@ -28,7 +28,7 @@ jobs:
     displayName: "Install Terraform"
 
   # Deploy Terraform managed infrastructure to playground environment
-  - bash: $(Pipeline.Workspace)/go-playground-deploy/base-infrastructure/scripts/setup-infra.sh
+  - bash: $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/setup-infra.sh
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     displayName: "Deploy Playground Infrastructure"
     env:
