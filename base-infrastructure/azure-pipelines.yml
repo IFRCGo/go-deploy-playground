@@ -27,6 +27,9 @@ jobs:
       terraformVersion: 'latest'
     displayName: "Install Terraform"
 
+  - script: chmod +x $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/setup-infra.sh
+    displayName: "Make setup-infra executable"
+
   # Deploy Terraform managed infrastructure to playground environment
   - bash: $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/setup-infra.sh
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
