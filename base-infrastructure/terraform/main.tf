@@ -10,8 +10,8 @@ data "azurerm_resource_group" "go_resource_group" {
 
 resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   name                = "go-${var.environment}-aks"
-  location            = azurerm_resource_group.go_resource_group.location
-  resource_group_name = azurerm_resource_group.go_resource_group.name
+  location            = data.azurerm_resource_group.go_resource_group.location
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
   dns_prefix          = "go-${var.environment}-aks"
 
   default_node_pool {
