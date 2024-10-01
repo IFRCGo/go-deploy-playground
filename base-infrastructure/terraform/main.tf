@@ -17,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     enable_auto_scaling         = true
     min_count                   = 1
     max_count                   = 1
-    temporary_name_for_rotation = "sandbox-rotation"
+    temporary_name_for_rotation = "sandrotn"
 
     upgrade_settings {
       max_surge = "10%"
