@@ -4,10 +4,6 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
-data "azurerm_resource_group" "go_resource_group" {
-  name = "ifrctgos002rg"
-}
-
 resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   name                = "go-${var.environment}-aks"
   location            = data.azurerm_resource_group.go_resource_group.location
