@@ -21,6 +21,8 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     upgrade_settings {
       max_surge = "10%"
     }
+
+    vnet_subnet_id      = azurerm_subnet.playground.id
   }
 
   identity {
@@ -45,10 +47,10 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
 }
 
 resource "azurerm_federated_identity_credential" "cred" {
-  name                = "go-${var.environment}-reader-identity"
-  audience            = ["api://AzureADTokenExchange"]
+  name     = "go-${var.environment}-reader-identity"
+  audience = ["api://AzureADTokenExchange"]
   #issuer              = azurerm_kubernetes_cluster.example.oidc_issuer_url
-  issuer              = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  issuer = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
   #parent_id           = azurerm_user_assigned_identity.workload.id
   parent_id           = module.secrets.workload_id
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
