@@ -11,18 +11,19 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   dns_prefix          = "go-${var.environment}-aks"
 
   default_node_pool {
-    name                = "default"
-    node_count          = 1
-    vm_size             = "Standard_A2_v2"
-    enable_auto_scaling = true
-    min_count           = 1
-    max_count           = 1
+    name                        = "default"
+    node_count                  = 1
+    vm_size                     = "Standard_A2_v2"
+    enable_auto_scaling         = true
+    min_count                   = 1
+    max_count                   = 1
+    temporary_name_for_rotation = "${var.environment}-rotation"
 
     upgrade_settings {
       max_surge = "10%"
     }
 
-    vnet_subnet_id      = azurerm_subnet.playground.id
+    vnet_subnet_id = azurerm_subnet.playground.id
   }
 
   identity {
