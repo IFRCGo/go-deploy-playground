@@ -21,6 +21,10 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     enable_auto_scaling = true
     min_count           = 1
     max_count           = 1
+
+    upgrade_settings {
+      max_surge = "10%"
+    }
   }
 
   identity {
@@ -42,4 +46,22 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   }
 
   workload_identity_enabled = true
+}
+
+module "secrets" {
+  source = "./modules/app_vault"
+
+  app_name            = "risk-module"
+  environment         = var.environment
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+
+  secrets = {
+    DATABASE_PASSWORD        = "tf-database-password"
+    DJANGO_SECRET_KEY        = "tf-secret-key"
+    METEOSWISS_S3_ACCESS_KEY = "tf-access-key"
+    METEOSWISS_S3_BUCKET     = "tf-some-bucket"
+    METEOSWISS_S3_SECRET_KEY = "tf-secret-key"
+    PDC_ACCESS_TOKEN         = "tf-pdc-access-token"
+    PDC_PASSWORD             = "tf-pdc-password"
+  }
 }
