@@ -1,4 +1,4 @@
-resource "azurerm_virtual_network" "" {
+resource "azurerm_virtual_network" "app" {
   name                = "go-${var.environment}-cluster-network"
   address_space       = ["10.0.0.0/8"]
   location            = data.azurerm_resource_group.go_resource_group.location
