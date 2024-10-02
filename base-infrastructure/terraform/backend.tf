@@ -1,9 +1,3 @@
-# terraform {
-#     backend local {
-#       path = "terraform.tfstate"
-#     }
-# }
-
 terraform {
   backend "azurerm" {
     resource_group_name  = "ifrctgos002rg"

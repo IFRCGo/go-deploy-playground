@@ -1,16 +1,16 @@
-resource "azurerm_virtual_network" "playground" {
+resource "azurerm_virtual_network" "app" {
   name                = "go-${var.environment}-aks-vnet"
   address_space       = ["10.0.0.0/8"]
   location            = data.azurerm_resource_group.go_resource_group.location
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
 }
 
-resource "azurerm_subnet" "playground" {
+resource "azurerm_subnet" "app" {
   name                 = "go-${var.environment}-aks-subnet"
-  virtual_network_name = azurerm_virtual_network.playground.name
   address_prefixes     = ["10.1.0.0/16"]
   resource_group_name  = data.azurerm_resource_group.go_resource_group.name
   service_endpoints    = ["Microsoft.KeyVault"]
+  virtual_network_name = azurerm_virtual_network.app.name
 }
 
 ## Route Table
