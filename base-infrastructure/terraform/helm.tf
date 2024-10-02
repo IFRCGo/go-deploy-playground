@@ -1,11 +1,11 @@
-#provider "helm" {
-#  kubernetes {
-#    host                   = azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.host
-#    client_certificate     = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_certificate)
-#    client_key             = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_key)
-#    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.cluster_ca_certificate)
-#  }
-#}
+provider "helm" {
+  kubernetes {
+    host                   = azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.host
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.cluster_ca_certificate)
+  }
+}
 
 #resource "helm_release" "go-ingress-nginx" {
 #  name             = "ingress-nginx"
@@ -14,8 +14,9 @@
 #  version          = "4.8.3"
 #  namespace        = "ingress-nginx"
 #  create_namespace = true
+#  depends_on       = [azurerm_kubernetes_cluster.go_kubernetes_cluster]
 #}
-#
+
 #resource "helm_release" "go-cert-manager" {
 #  name             = "cert-manager"
 #  repository       = "https://charts.jetstack.io"
@@ -28,16 +29,19 @@
 #    name  = "installCRDs"
 #    value = true
 #  }
-#}
 #
-#resource "helm_release" "argo-cd" {
-#  name             = "argo-cd"
-#  chart            = "argo-cd"
-#  repository       = "https://argoproj.github.io/argo-helm"
-#  version          = "7.6.7"
-#  namespace        = "argocd"
-#  create_namespace = true
+#  depends_on = [azurerm_kubernetes_cluster.go_kubernetes_cluster]
 #}
+
+resource "helm_release" "argo-cd" {
+  name             = "argo-cd"
+  chart            = "argo-cd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  version          = "7.6.7"
+  namespace        = "argocd"
+  create_namespace = true
+  depends_on       = [azurerm_kubernetes_cluster.go_kubernetes_cluster]
+}
 
 #resource "helm_release" "argo_cd_image_updater" {
 #  depends_on = [helm_release.argo_cd]
