@@ -7,5 +7,5 @@ output "test_key_vault_name" {
 }
 
 output "test_workload_id" {
-  value = module.secrets.workload_id
+  value = module.secrets.workload_client_id
 }

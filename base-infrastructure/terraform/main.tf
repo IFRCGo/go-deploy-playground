@@ -21,8 +21,8 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
       max_surge = "10%"
     }
 
-    vm_size             = "Standard_A2_v2"
-    vnet_subnet_id      = azurerm_subnet.app.id
+    vm_size        = "Standard_A2_v2"
+    vnet_subnet_id = azurerm_subnet.app.id
   }
 
   identity {
@@ -46,13 +46,18 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   workload_identity_enabled = true
 }
 
+locals {
+  cluster_namespace    = "default"
+  service_account_name = "service-token-reader"
+}
+
 resource "azurerm_federated_identity_credential" "cred" {
   name                = "go-${var.environment}-reader-identity"
   audience            = ["api://AzureADTokenExchange"]
   issuer              = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
   parent_id           = module.secrets.workload_id
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
-  subject             = "system:serviceaccount:default:service-token-reader"
+  subject             = "system:serviceaccount:${local.cluster_namespace}:${local.service_account_name}"
 }
 
 module "secrets" {

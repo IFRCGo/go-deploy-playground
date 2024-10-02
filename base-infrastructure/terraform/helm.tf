@@ -12,13 +12,13 @@ resource "helm_release" "argo-cd" {
   chart            = "argo-cd"
   create_namespace = true
 
-  depends_on       = [
+  depends_on = [
     azurerm_kubernetes_cluster.go_kubernetes_cluster
   ]
 
-  repository       = "https://argoproj.github.io/argo-helm"
-  namespace        = "argocd"
-  version          = "7.6.7"
+  repository = "https://argoproj.github.io/argo-helm"
+  namespace  = "argocd"
+  version    = "7.6.7"
 }
 
 #resource "helm_release" "argo_cd_image_updater" {
