@@ -68,7 +68,7 @@ module "secrets" {
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
 
   secrets = {
-    DATABASE_PASSWORD        = "tf-database-password"
+    DATABASE_PASSWORD        = "tf-new-database-password"
     DJANGO_SECRET_KEY        = "tf-secret-key"
     METEOSWISS_S3_ACCESS_KEY = "tf-access-key"
     METEOSWISS_S3_BUCKET     = "tf-some-bucket"
