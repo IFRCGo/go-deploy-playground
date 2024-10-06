@@ -1,23 +1,25 @@
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: my-risk-module
-#  namespace: argocd
-#spec:
-#  project: default
-#  source:
-#    repoURL: https://github.com/IFRCGo/go-risk-module-api
-#    targetRevision: feature/helm-chart
-#    path: helm/go-risk-api
-#    helm:
-#      valueFiles:
-#        - values-test.yaml
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: default
-#  syncPolicy:
-#    syncOptions:
-#      - CreateNamespace=true
-#    automated:
-#      prune: true
-#      selfHeal: true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-risk-module
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/IFRCGo/go-risk-module-api
+    targetRevision: feature/helm-chart
+    path: helm/go-risk-api
+    helm:
+      valueFiles:
+        - values-test.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
