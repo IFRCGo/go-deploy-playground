@@ -70,7 +70,7 @@ module "secrets" {
   secrets = {
     DATABASE_PASSWORD        = "tf-new-database-password"
     DJANGO_SECRET_KEY        = "tf-secret-key"
-    METEOSWISS_S3_ACCESS_KEY = "tf-access-key"
+    METEOSWISS_S3_ACCESS_KEY = "tf-access-adjusted-key"
     METEOSWISS_S3_BUCKET     = "tf-some-bucket"
     METEOSWISS_S3_SECRET_KEY = "tf-secret-key"
     PDC_ACCESS_TOKEN         = "tf-pdc-access-token"
