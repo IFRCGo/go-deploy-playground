@@ -1,21 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: reloader
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: v1.13.2
-    helm:
-      parameters:
-        - name: installCRDs
-          value: "true"
+    repoURL: https://stakater.github.io/stakater-charts
+    chart: reloader
+    targetRevision: 1.1.0
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: reloader
   syncPolicy:
     automated:
       prune: true
