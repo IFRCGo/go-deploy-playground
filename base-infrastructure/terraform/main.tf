@@ -4,6 +4,11 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
+resource "azurerm_dns_zone" "ifrc" {
+  name                = "ifrc.org"
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+}
+
 resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   name                = "go-${var.environment}-cluster"
   location            = data.azurerm_resource_group.go_resource_group.location
@@ -41,6 +46,10 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   tags = {
     Environment = var.environment
     ManagedBy   = "IFRCGo"
+  }
+
+  web_app_routing {
+    dns_zone_id = azurerm_dns_zone.ifrc.id
   }
 
   workload_identity_enabled = true
