@@ -19,6 +19,16 @@ resource "helm_release" "argo-cd" {
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = "argocd"
   version    = "7.6.7"
+
+  set {
+    name  = "configs.cm.timeout.reconciliation"
+    value = "60s"
+  }
+
+  set {
+    name  = "configs.cm.timeout.hard.reconciliation"
+    value = "90s"
+  }
 }
 
 #resource "helm_release" "argo_cd_image_updater" {
