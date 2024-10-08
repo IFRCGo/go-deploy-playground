@@ -25,6 +25,7 @@ resource "helm_release" "argo-cd" {
       configs = {
         cm = {
           "timeout.reconciliation": "60s"  
+          "timeout.hard.reconciliation": "90s"
         }
       }
     })
