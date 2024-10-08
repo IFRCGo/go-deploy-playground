@@ -20,15 +20,15 @@ resource "helm_release" "argo-cd" {
   namespace  = "argocd"
   version    = "7.6.7"
 
-  set {
-    name  = "configs.cm.timeout.reconciliation"
-    value = "60s"
-  }
-
-  set {
-    name  = "configs.cm.timeout.hard.reconciliation"
-    value = "90s"
-  }
+  values = [
+    yamlencode({
+      configs = {
+        cm = {
+          "timeout.reconciliation": "60s"  
+        }
+      }
+    })
+  ]
 }
 
 #resource "helm_release" "argo_cd_image_updater" {
