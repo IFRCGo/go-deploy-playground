@@ -10,9 +10,11 @@ spec:
     chart: argocd-image-updater
     targetRevision: "0.11.0"
     helm:
-      parameters:
-        - name: installCRDs
-          value: "true"
+      config.registries:
+        - name: ghcr.io
+          api_url: https://ghcr.io
+          prefix: ghcr.io
+          credentials: secret:argocd/ghcr-secret
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
