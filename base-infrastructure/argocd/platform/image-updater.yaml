@@ -10,9 +10,9 @@ spec:
     chart: argocd-image-updater
     targetRevision: "0.11.0"
     helm:
-      parameters:
-        - name: config.registries
-          value:
+      values: |
+        config:
+          registries:
             - name: ghcr.io
               api_url: https://ghcr.io
               prefix: ghcr.io
