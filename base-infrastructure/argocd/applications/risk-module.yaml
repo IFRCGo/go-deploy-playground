@@ -9,7 +9,6 @@ metadata:
     # Image list for ArgoCD Image Updater to track
     argocd-image-updater.argoproj.io/image-list: |
       api=ghcr.io/ifrcgo/go-risk-module-api:test
-#      api=ghcr.io/ifrcgo/go-risk-module-api:dev-.*
 
     # Set the update strategy to pick the latest matching tag
     argocd-image-updater.argoproj.io/api.update-strategy: digest
@@ -17,10 +16,6 @@ metadata:
     # Specifying Helm parameter names
     argocd-image-updater.argoproj.io/api.helm.image-name: image.repository
     argocd-image-updater.argoproj.io/api.helm.image-tag: image.tag
-
-    # Optionally, you can add more annotations to control sync behavior
-    #argocd.argoproj.io/sync-wave: "0"
-
 spec:
   project: default
   source:
