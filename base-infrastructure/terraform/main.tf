@@ -77,12 +77,14 @@ module "secrets" {
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
 
   secrets = {
-    DATABASE_PASSWORD        = "tf-new-database-password"
-    DJANGO_SECRET_KEY        = "tf-secret-key"
-    METEOSWISS_S3_ACCESS_KEY = "tf-access-adjusted-key"
-    METEOSWISS_S3_BUCKET     = "tf-some-bucket"
-    METEOSWISS_S3_SECRET_KEY = "tf-secret-key"
-    PDC_ACCESS_TOKEN         = "tf-pdc-access-token"
-    PDC_PASSWORD             = "tf-pdc-password"
+    DATABASE_PASSWORD          = "tf-new-database-password"
+    DJANGO_SECRET_KEY          = "tf-secret-key"
+    METEOSWISS_S3_ACCESS_KEY   = "tf-access-adjusted-key"
+    METEOSWISS_S3_BUCKET       = "tf-some-bucket"
+    METEOSWISS_S3_ENDPOINT_URL = "tf-some-s3-endpoint-url"
+    METEOSWISS_S3_SECRET_KEY   = "tf-secret-key"
+    PDC_ACCESS_TOKEN           = "tf-pdc-access-token"
+    PDC_PASSWORD               = "tf-pdc-password"
+    PDC_USERNAME               = "tf-pdc-username"
   }
 }
