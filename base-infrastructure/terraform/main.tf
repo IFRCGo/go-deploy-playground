@@ -86,5 +86,6 @@ module "secrets" {
     PDC_ACCESS_TOKEN           = "tf-pdc-access-token"
     PDC_PASSWORD               = "tf-pdc-password"
     PDC_USERNAME               = "tf-pdc-username"
+    SENTRY_DSN                 = "tf-sentry-dsn"
   }
 }
