@@ -7,5 +7,5 @@ resource "azurerm_role_assignment" "dev_key_vault_admin" {
 resource "azurerm_role_assignment" "dev_key_vault_admin2" {
   scope                = module.secrets.key_vault_id
   role_definition_name = "Key Vault Administrator"
-  principal_id         = "f585c1c3-801b-4641-8d7f-145aa50ffb04"
+  principal_id         = "c31baae7-afbf-4ad3-8e01-5abbd68adb16"
 }
