@@ -9,4 +9,10 @@ resource "azurerm_key_vault_secret" "secret_" {
   depends_on = [
     azurerm_role_assignment.key_vault_admin,
   ]
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
