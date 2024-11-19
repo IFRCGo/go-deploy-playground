@@ -18,9 +18,9 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   default_node_pool {
     name                = "default"
     enable_auto_scaling = true
-    max_count           = 3
+    max_count           = 4
     min_count           = 1
-    node_count          = 2
+    node_count          = 1
 
     upgrade_settings {
       max_surge = "10%"
