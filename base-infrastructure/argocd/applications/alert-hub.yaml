@@ -19,7 +19,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/IFRCGo/go-risk-module-api
+    repoURL: https://github.com/IFRCGo/alert-hub-backend
     targetRevision: feature/helm-chart-secrets-config
     path: helm
     helm:
