@@ -16,10 +16,10 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   dns_prefix          = "go-${var.environment}-cluster"
 
   default_node_pool {
-    name                = "default"
-    enable_auto_scaling = true
-    max_count           = 5
-    min_count           = 1
+    name                        = "default"
+    enable_auto_scaling         = true
+    max_count                   = 5
+    min_count                   = 1
     temporary_name_for_rotation = "tempdefault"
 
     upgrade_settings {
@@ -67,25 +67,4 @@ resource "azurerm_federated_identity_credential" "cred" {
   parent_id           = module.secrets.workload_id
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
   subject             = "system:serviceaccount:${local.cluster_namespace}:${local.service_account_name}"
-}
-
-module "secrets" {
-  source = "./modules/app_vault"
-
-  app_name            = "risk-module"
-  environment         = var.environment
-  resource_group_name = data.azurerm_resource_group.go_resource_group.name
-
-  secrets = {
-    DATABASE_PASSWORD          = "tf-new-database-password"
-    DJANGO_SECRET_KEY          = "tf-secret-key"
-    METEOSWISS_S3_ACCESS_KEY   = "tf-access-adjusted-key"
-    METEOSWISS_S3_BUCKET       = "tf-some-bucket"
-    METEOSWISS_S3_ENDPOINT_URL = "tf-some-s3-endpoint-url"
-    METEOSWISS_S3_SECRET_KEY   = "tf-secret-key"
-    PDC_ACCESS_TOKEN           = "tf-pdc-access-token"
-    PDC_PASSWORD               = "tf-pdc-password"
-    PDC_USERNAME               = "tf-pdc-username"
-    SENTRY_DSN                 = "tf-sentry-dsn"
-  }
 }
