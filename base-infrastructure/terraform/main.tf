@@ -20,7 +20,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     enable_auto_scaling = true
     max_count           = 5
     min_count           = 1
-    temporary_name_for_rotation = "tempdefaultname"
+    temporary_name_for_rotation = "tempdefault"
 
     upgrade_settings {
       max_surge = "10%"
