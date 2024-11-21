@@ -54,17 +54,3 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
 
   workload_identity_enabled = true
 }
-
-locals {
-  cluster_namespace    = "default"
-  service_account_name = "service-token-reader"
-}
-
-resource "azurerm_federated_identity_credential" "cred" {
-  name                = "go-${var.environment}-reader-identity"
-  audience            = ["api://AzureADTokenExchange"]
-  issuer              = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
-  parent_id           = module.secrets.workload_id
-  resource_group_name = data.azurerm_resource_group.go_resource_group.name
-  subject             = "system:serviceaccount:${local.cluster_namespace}:${local.service_account_name}"
-}

@@ -18,3 +18,12 @@ resource "azurerm_role_assignment" "key_vault_reader" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.workload.principal_id
 }
+
+resource "azurerm_federated_identity_credential" "cred" {
+  name                = "${var.app_name}-${var.environment}-secret-reader-identity"
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = var.cluster_oidc_issuer_url
+  parent_id           = azurerm_user_assigned_identity.workload.id
+  resource_group_name = var.resource_group_name
+  subject             = "system:serviceaccount:${var.cluster_namespace}:${var.service_account_name}"
+}
