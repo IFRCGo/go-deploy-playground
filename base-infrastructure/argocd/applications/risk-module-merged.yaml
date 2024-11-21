@@ -20,7 +20,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/IFRCGo/go-risk-module-api
-    targetRevision: experimental/helm-chart-merge
+    targetRevision: feature/helm-chart-merge
     path: helm
     helm:
       valueFiles:
