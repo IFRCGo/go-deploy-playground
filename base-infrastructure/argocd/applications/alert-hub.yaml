@@ -1,14 +1,14 @@
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: test-alert-hub
-#  namespace: argocd
-#  finalizers:
-#    - resources-finalizer.argocd.argoproj.io
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alert-hub
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 #  annotations:
 #    # Image list for ArgoCD Image Updater to track
 #    argocd-image-updater.argoproj.io/image-list: |
-#      api=ghcr.io/ifrcgo/alert-hub-backend/ifrcgo-alert-hub-helm-alpha:0.0.1-project-phase-2.6c0781f
+#      api=docker pull ghcr.io/ifrcgo/alert-hub-backend:develop.448e946
 #
 #    # Set the update strategy to pick the latest matching tag
 #    argocd-image-updater.argoproj.io/api.update-strategy: digest
@@ -16,26 +16,21 @@
 #    # Specifying Helm parameter names
 #    argocd-image-updater.argoproj.io/api.helm.image-name: image.repository
 #    argocd-image-updater.argoproj.io/api.helm.image-tag: image.tag
-#spec:
-#  project: default
-#  source:
-#    repoURL: https://github.com/IFRCGo/alert-hub-backend
-#    targetRevision: feature/helm-chart-secrets-config
-#    path: helm
-#    helm:
-#      parameters:
-#        - name: image.repository
-#          value: ghcr.io/ifrcgo/alert-hub-backend/ifrcgo-alert-hub-helm-alpha
-#        - name: image.tag
-#          value: 0.0.1-project-phase-2.6c0781f
-#      valueFiles:
-#        - values-test.yaml
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: alert-hub
-#  syncPolicy:
-#    automated:
-#      prune: true
-#      selfHeal: true
-#    syncOptions:
-#      - CreateNamespace=true
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/IFRCGo/alert-hub-backend
+    targetRevision: feature/helm-chart-secrets-config
+    path: helm
+    helm:
+      valueFiles:
+        - values-sandbox.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: alert-hub
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
