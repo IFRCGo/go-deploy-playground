@@ -27,3 +27,7 @@ variable "service_account_name" {
   type = string 
   default = "service-token-reader"
 }
+
+variable "vault_subnet_ids" {
+  type = list(string) 
+}

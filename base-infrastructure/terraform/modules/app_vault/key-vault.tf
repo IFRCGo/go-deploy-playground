@@ -15,9 +15,9 @@ resource "azurerm_key_vault" "app_kv" {
   purge_protection_enabled   = false
 
   network_acls {
-    default_action             = "Allow"
+    default_action             = "Deny"
     bypass                     = "AzureServices"
     ip_rules                   = []
-    virtual_network_subnet_ids = []
+    virtual_network_subnet_ids = var.vault_subnet_ids
   }
 }

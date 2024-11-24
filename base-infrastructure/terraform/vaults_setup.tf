@@ -19,6 +19,8 @@ module "secrets" {
     PDC_USERNAME               = ""
     SENTRY_DSN                 = ""
   }
+
+  vault_subnet_ids = [azurerm_subnet.app.id]
 }
 
 module "alert_hub_vault" {
@@ -30,4 +32,5 @@ module "alert_hub_vault" {
   environment             = var.environment
   resource_group_name     = data.azurerm_resource_group.go_resource_group.name
   service_account_name    = "alert-hub-sa"
+  vault_subnet_ids = [azurerm_subnet.app.id]
 }
