@@ -18,6 +18,6 @@ resource "azurerm_key_vault" "app_kv" {
     default_action             = "Allow"
     bypass                     = "AzureServices"
     ip_rules                   = []
-    virtual_network_subnet_ids = var.vault_subnet_ids
+    virtual_network_subnet_ids = []
   }
 }
