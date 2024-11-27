@@ -13,6 +13,43 @@ resource "azurerm_subnet" "app" {
   virtual_network_name = azurerm_virtual_network.app.name
 }
 
+resource "azurerm_subnet" "database" {
+  name                 = "go-${var.environment}-postgres-subnet"
+  resource_group_name  = data.azurerm_resource_group.go_resource_group.name
+  virtual_network_name = azurerm_virtual_network.app.name
+  address_prefixes     = ["10.2.0.0/16"]
+  service_endpoints    = ["Microsoft.Storage"]
+
+  delegation {
+    name = "fs"
+
+    service_delegation {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
+
+# Create private dns zone for postgresql
+resource "azurerm_private_dns_zone" "postgres" {
+  name                = "${var.environment}.postgres.database.azure.com"
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+}
+
+# Create vitual network link
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
+  name                  = "go-${var.environment}-postgres-vnet-zone"
+  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+  virtual_network_id    = azurerm_virtual_network.app.id
+  resource_group_name   = data.azurerm_resource_group.go_resource_group.name
+
+  depends_on = [
+    azurerm_subnet.database
+  ]
+}
+
 ## Route Table
 #resource "azurerm_route_table" "aks_route_table" {
 #  name                = "go-${var.environment}-aks-route-table"

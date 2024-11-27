@@ -9,3 +9,8 @@ variable "location" {
   default     = "westeurope"
   description = "defines the location to deploy to"
 }
+
+variable "psql_administrator_login" {
+  type    = string
+  default = "psqladmin"
+}
