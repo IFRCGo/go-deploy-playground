@@ -36,9 +36,9 @@ module "alert_hub_vault" {
   service_account_name    = "alert-hub-sa"
 
   secrets = {
-    TF_ADMIN_LOGIN    = var.psql_administrator_login
-    TF_ADMIN_PASSWORD = random_password.db_admin.result
-    TF_DB_HOST        = azurerm_postgresql_flexible_server.ifrc.fqdn
+    DB_USER     = var.psql_administrator_login
+    DB_PASSWORD = random_password.db_admin.result
+    DB_HOST     = azurerm_postgresql_flexible_server.ifrc.fqdn
   }
 
   storage_config = {
