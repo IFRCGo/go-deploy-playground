@@ -4,6 +4,7 @@ module "secrets" {
   app_name                = "risk-module"
   cluster_namespace       = "ifrcgo-risk-module"
   cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  database_server_id      = azurerm_postgresql_flexible_server.ifrc.id
   environment             = var.environment
   resource_group_name     = data.azurerm_resource_group.go_resource_group.name
 
@@ -29,6 +30,7 @@ module "alert_hub_vault" {
   app_name                = "alert-hub"
   cluster_namespace       = "alert-hub"
   cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  database_server_id      = azurerm_postgresql_flexible_server.ifrc.id
   environment             = var.environment
   resource_group_name     = data.azurerm_resource_group.go_resource_group.name
   service_account_name    = "alert-hub-sa"

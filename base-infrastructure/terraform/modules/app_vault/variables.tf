@@ -10,6 +10,11 @@ variable "cluster_oidc_issuer_url" {
   type = string 
 }
 
+variable "database_server_id" {
+  type = any
+  default = null
+}
+
 variable "environment" {
   type = string
 }
