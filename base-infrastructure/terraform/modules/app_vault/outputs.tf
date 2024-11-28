@@ -14,6 +14,6 @@ output "workload_id" {
   value = azurerm_user_assigned_identity.workload.id
 }
 
-output "storage_container_name" {
-  value = var.storage_config.enabled ? azurerm_storage_container.app_container[0].name : null
+output "storage_container_names" {
+  value = var.storage_config.enabled ? azurerm_storage_container.app_container[*].name : null
 }

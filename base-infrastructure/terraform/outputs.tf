@@ -19,13 +19,15 @@ output "alert_hub_client_id" {
 }
 
 output "alert_hub_storage_container" {
-  value = module.alert_hub_vault.storage_container_name
+  value = module.alert_hub_vault.storage_container_names
 }
 
-output "storage_account_name" {
+output "storage_account_names" {
   value = azurerm_storage_account.app_storage.name
+  #value = data.azurerm_storage_account.gosanbox1.name
 }
 
 output "primary_blob_endpoint" {
   value = azurerm_storage_account.app_storage.primary_blob_endpoint
+  #value = data.azurerm_storage_account.gosanbox1.primary_blob_endpoint
 }
