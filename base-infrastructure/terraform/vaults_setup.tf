@@ -35,6 +35,12 @@ module "alert_hub_vault" {
   resource_group_name     = data.azurerm_resource_group.go_resource_group.name
   service_account_name    = "alert-hub-sa"
 
+  secrets = {
+    TF_ADMIN_LOGIN    = var.psql_administrator_login
+    TF_ADMIN_PASSWORD = random_password.db_admin.result
+    TF_DB_HOST        = azurerm_postgresql_flexible_server.ifrc.fqdn
+  }
+
   storage_config = {
     container_refs = [
       "media",
