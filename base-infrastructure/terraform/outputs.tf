@@ -17,3 +17,15 @@ output "alert_hub_key_vault_name" {
 output "alert_hub_client_id" {
   value = module.alert_hub_vault.workload_client_id
 }
+
+output "alert_hub_storage_container" {
+  value = module.alert_hub_vault.storage_container_name
+}
+
+output "storage_account_name" {
+  value = azurerm_storage_account.app_storage.name
+}
+
+output "primary_blob_endpoint" {
+  value = azurerm_storage_account.app_storage.primary_blob_endpoint
+}

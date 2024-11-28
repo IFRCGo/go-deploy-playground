@@ -34,5 +34,12 @@ module "alert_hub_vault" {
   environment             = var.environment
   resource_group_name     = data.azurerm_resource_group.go_resource_group.name
   service_account_name    = "alert-hub-sa"
-  vault_subnet_ids        = [azurerm_subnet.app.id]
+
+  storage_config = {
+    enabled              = true
+    storage_account_id   = azurerm_storage_account.app_storage.id
+    storage_account_name = azurerm_storage_account.app_storage.name
+  }
+
+  vault_subnet_ids = [azurerm_subnet.app.id]
 }
