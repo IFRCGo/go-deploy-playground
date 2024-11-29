@@ -13,17 +13,17 @@ resource "azurerm_postgresql_flexible_server_database" "app" {
   }
 }
 
-resource "azurerm_key_vault_secret" "db_name" {
-  name         = "DATABASE-NAME"
-  value        = local.app_database_name
-  key_vault_id = azurerm_key_vault.app_kv.id
-
-  # Ensure secret is deleted before creating identity loses permission to do so
-  depends_on = [
-    azurerm_role_assignment.key_vault_admin,
-  ]
-
-  lifecycle {
-    ignore_changes = all
-  }
-}
+#resource "azurerm_key_vault_secret" "db_name" {
+#  name         = "DATABASE-NAME"
+#  value        = local.app_database_name
+#  key_vault_id = azurerm_key_vault.app_kv.id
+#
+#  # Ensure secret is deleted before creating identity loses permission to do so
+#  depends_on = [
+#    azurerm_role_assignment.key_vault_admin,
+#  ]
+#
+#  lifecycle {
+#    ignore_changes = all
+#  }
+#}
