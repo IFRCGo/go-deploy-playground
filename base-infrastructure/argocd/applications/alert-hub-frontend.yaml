@@ -5,26 +5,12 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
-#  annotations:
-#    # Image list for ArgoCD Image Updater to track
-#    argocd-image-updater.argoproj.io/image-list: |
-#      api=docker pull ghcr.io/ifrcgo/alert-hub-backend:develop.448e946
-#
-#    # Set the update strategy to pick the latest matching tag
-#    argocd-image-updater.argoproj.io/api.update-strategy: digest
-#
-#    # Specifying Helm parameter names
-#    argocd-image-updater.argoproj.io/api.helm.image-name: image.repository
-#    argocd-image-updater.argoproj.io/api.helm.image-tag: image.tag
 spec:
   project: default
   source:
-    repoURL: https://github.com/IFRCGo/alert-hub-web-app
-    targetRevision: develop
-    path: nginx-serve/helm
-    helm:
-      valueFiles:
-        - values-test.yaml
+    repoURL: ghcr.io/ifrcgo/alert-hub-web-app
+    chart: ifrcgo-web-app-nginx-serve
+    targetRevision: 0.0.1-develop.d39f061
   destination:
     server: https://kubernetes.default.svc
     namespace: alert-hub
