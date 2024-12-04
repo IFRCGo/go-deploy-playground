@@ -49,6 +49,9 @@ spec:
     chart: ifrcgo-alert-hub-helm
     targetRevision: 0.0.1-develop.d8e2386
     helm:
+      parameters:
+        - name: image.tag
+          value: "develop.d8e2386"
       valueFiles:
         - values-sandbox.yaml
   destination:
