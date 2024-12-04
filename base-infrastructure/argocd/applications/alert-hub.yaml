@@ -48,11 +48,13 @@ metadata:
       api=ghcr.io/ifrcgo/alert-hub-backend
 
     # Set the update strategy to pick the latest matching tag
-    argocd-image-updater.argoproj.io/api.update-strategy: latest
+    argocd-image-updater.argoproj.io/api.update-strategy: newest-build
     argocd-image-updater.argoproj.io/api.allow-tags: regexp:^develop.*$
 
     argocd-image-updater.argoproj.io/api.helm.image-name: image.name
     argocd-image-updater.argoproj.io/api.helm.image-tag: image.tag
+
+    argocd-image-updater.argoproj.io/api.pull-secret: pullsecret:argocd/ghcr-secret
 spec:
   project: default
   source:
