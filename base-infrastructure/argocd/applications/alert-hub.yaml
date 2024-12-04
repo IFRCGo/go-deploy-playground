@@ -42,6 +42,17 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    # Image list for ArgoCD Image Updater to track
+    argocd-image-updater.argoproj.io/image-list: |
+      api=ghcr.io/ifrcgo/alert-hub-backend
+
+    # Set the update strategy to pick the latest matching tag
+    argocd-image-updater.argoproj.io/api.update-strategy: latest
+    argocd-image-updater.argoproj.io/api.allow-tags: regexp:^develop.*$
+
+    argocd-image-updater.argoproj.io/api.helm.image-name: image.name
+    argocd-image-updater.argoproj.io/api.helm.image-tag: image.tag
 spec:
   project: default
   source:
