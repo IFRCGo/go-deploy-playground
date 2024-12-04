@@ -11,6 +11,10 @@ spec:
     repoURL: ghcr.io/ifrcgo/alert-hub-web-app
     chart: ifrcgo-web-app-nginx-serve
     targetRevision: 0.0.1-develop.d39f061
+    helm:
+      parameters:
+        - name: ingress.host
+          value: "alerthub-sandbox.ifrc.org"
   destination:
     server: https://kubernetes.default.svc
     namespace: alert-hub
