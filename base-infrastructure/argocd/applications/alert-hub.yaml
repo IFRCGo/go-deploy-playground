@@ -35,28 +35,28 @@
 #    syncOptions:
 #      - CreateNamespace=true
 
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: alert-hub
-#  namespace: argocd
-#  finalizers:
-#    - resources-finalizer.argocd.argoproj.io
-#spec:
-#  project: default
-#  source:
-#    repoURL: ghcr.io/ifrcgo/alert-hub-backend
-#    chart: ifrcgo-alert-hub-helm
-#    targetRevision: 0.0.1-develop.d8e2386
-#    helm:
-#      valueFiles:
-#        - values-sandbox.yaml
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: alert-hub
-#  syncPolicy:
-#    automated:
-#      prune: true
-#      selfHeal: true
-#    syncOptions:
-#      - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alert-hub
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/ifrcgo/alert-hub-backend
+    chart: ifrcgo-alert-hub-helm
+    targetRevision: 0.0.1-develop.d8e2386
+    helm:
+      valueFiles:
+        - values-sandbox.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: alert-hub
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
