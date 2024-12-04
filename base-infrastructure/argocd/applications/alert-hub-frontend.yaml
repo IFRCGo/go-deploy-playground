@@ -15,9 +15,9 @@ spec:
       parameters:
         - name: ingress.host
           value: "alerthub-sandbox.ifrc.org"
-        - name: app.APP_MAPBOX_ACCESS_TOKEN
+        - name: env.APP_MAPBOX_ACCESS_TOKEN
           value: "<some-token>"
-        - name: app.APP_GOOGLE_ANALYTICS_ID
+        - name: env.APP_GOOGLE_ANALYTICS_ID
           value: "<some-id>" 
   destination:
     server: https://kubernetes.default.svc
