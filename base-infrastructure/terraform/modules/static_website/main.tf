@@ -7,7 +7,7 @@ resource "random_string" "random" {
 
 # Create Storage Account
 resource "azurerm_storage_account" "static_site" {
-  name                     = "${var.app_name}staticwebsite${random_string.random.result}"
+  name                     = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}staticwebsite${random_string.random.result}"
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
