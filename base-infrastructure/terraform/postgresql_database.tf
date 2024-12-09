@@ -27,6 +27,13 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
   ]
 }
 
+# Enable extensions
+resource "azurerm_postgresql_flexible_server_configuration" "extensions" {
+  name                = "azure.extensions"
+  server_id          = azurerm_postgresql_flexible_server.ifrc.id
+  value              = "POSTGIS"
+}
+
 resource "azurerm_postgresql_flexible_server_firewall_rule" "vnet_rule" {
   name             = "go-${var.environment}-psql-vnet-access-fw-rule"
   server_id        = azurerm_postgresql_flexible_server.ifrc.id
