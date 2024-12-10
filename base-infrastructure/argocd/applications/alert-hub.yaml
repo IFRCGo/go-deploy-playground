@@ -97,6 +97,9 @@ spec:
 #    targetRevision: 0.0.1-develop.4bceb7d
     helm:
       valuesObject:
+        image:
+          name: ghcr.io/ifrcgo/alert-hub-backend
+          tag: develop.2a8cbe0
         ingress:
           host: "alerthub-sandbox-api.ifrc.org"
           tls:
