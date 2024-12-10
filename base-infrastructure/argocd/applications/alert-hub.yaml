@@ -90,7 +90,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/IFRCGo/alert-hub-backend
-    targetRevision: fix/azure-identity-issue
+    targetRevision: exp/azure-identity-issue
     path: helm
 #    repoURL: ghcr.io/ifrcgo/alert-hub-backend
 #    chart: ifrcgo-alert-hub-helm
