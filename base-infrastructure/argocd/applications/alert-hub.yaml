@@ -79,66 +79,67 @@
 #    syncOptions:
 #      - CreateNamespace=true
 
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: alert-hub
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/IFRCGo/alert-hub-backend
-    targetRevision: exp/azure-identity-issue
-    path: helm
-#    repoURL: ghcr.io/ifrcgo/alert-hub-backend
-#    chart: ifrcgo-alert-hub-helm
-#    targetRevision: 0.0.1-develop.4bceb7d
-    helm:
-      valuesObject:
-        image:
-          name: ghcr.io/ifrcgo/alert-hub-backend
-          tag: develop.2a8cbe0
-        ingress:
-          host: "alerthub-sandbox-api.ifrc.org"
-          tls:
-            secretName: "alerthub-helm-secret-cert"
-        azure:
-          aksSecretsProviderAvailable: true
-          keyvault:
-            name: "alert-hub-playground-key"
-            clientId: "f1b1a632-68d6-4e5d-8a1e-d416e98b41a4"
-            tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
-        env:
-          APP_FRONTEND_HOST: "https://alerthub-sandbox.ifrc.org"
-          APP_DOMAIN: "alerthub-sandbox-api.ifrc.org"
-          DJANGO_ALLOWED_HOSTS: "alerthub-sandbox-api.ifrc.org"
-          SESSION_COOKIE_DOMAIN: ".ifrc.org"
-          CSRF_COOKIE_DOMAIN: ".ifrc.org"
-          CORS_ALLOWED_ORIGINS: "https://alerthub-sandbox.ifrc.org"
-          # Blob Storage Configs
-          USE_AZURE_STORAGE: True
-          AZURE_STORAGE_MEDIA_CONTAINER: alert-hub-playground-media-container
-          AZURE_STORAGE_STATIC_CONTAINER: alert-hub-playground-static-container
-          AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
-          AZURE_STORAGE_MANAGED_IDENTITY: True
-          AZURE_STORAGE_TOKEN_CREDENTIAL: None
-        serviceAccount:
-          create: true
-          name: "alert-hub-sa"
-          annotations:
-            azure.workload.identity/client-id: "f1b1a632-68d6-4e5d-8a1e-d416e98b41a4"
-          labels:
-            azure.workload.identity/use: "true"
-      valueFiles:
-        - values-staging.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: alert-hub
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: alert-hub
+#  namespace: argocd
+#  finalizers:
+#    - resources-finalizer.argocd.argoproj.io
+#spec:
+#  project: default
+#  source:
+#    repoURL: https://github.com/IFRCGo/alert-hub-backend
+#    targetRevision: exp/azure-identity-issue
+#    path: helm
+##    repoURL: ghcr.io/ifrcgo/alert-hub-backend
+##    chart: ifrcgo-alert-hub-helm
+##    targetRevision: 0.0.1-develop.4bceb7d
+#    helm:
+#      valuesObject:
+#        image:
+#          name: ghcr.io/ifrcgo/alert-hub-backend
+#          tag: develop.2a8cbe0
+#        ingress:
+#          host: "alerthub-sandbox-api.ifrc.org"
+#          tls:
+#            secretName: "alerthub-helm-secret-cert"
+#        azure:
+#          aksSecretsProviderAvailable: true
+#          keyvault:
+#            name: "alert-hub-playground-key"
+#            clientId: "f1b1a632-68d6-4e5d-8a1e-d416e98b41a4"
+#            tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+#        env:
+#          APP_FRONTEND_HOST: "https://alerthub-sandbox.ifrc.org"
+#          APP_DOMAIN: "alerthub-sandbox-api.ifrc.org"
+#          DJANGO_ALLOWED_HOSTS: "alerthub-sandbox-api.ifrc.org"
+#          SESSION_COOKIE_DOMAIN: ".ifrc.org"
+#          CSRF_COOKIE_DOMAIN: ".ifrc.org"
+#          CORS_ALLOWED_ORIGINS: "https://alerthub-sandbox.ifrc.org"
+#          # Blob Storage Configs
+#          USE_AZURE_STORAGE: True
+#          AZURE_STORAGE_MEDIA_CONTAINER: alert-hub-playground-media-container
+#          AZURE_STORAGE_STATIC_CONTAINER: alert-hub-playground-static-container
+#          AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
+#          AZURE_STORAGE_MANAGED_IDENTITY: True
+#          AZURE_STORAGE_TOKEN_CREDENTIAL: None
+#        serviceAccount:
+#          create: true
+#          automount: true
+#          name: "alert-hub-sa"
+#          annotations:
+#            azure.workload.identity/client-id: "f1b1a632-68d6-4e5d-8a1e-d416e98b41a4"
+#          labels:
+#            azure.workload.identity/use: "true"
+#      valueFiles:
+#        - values-staging.yaml
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: alert-hub
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=true
