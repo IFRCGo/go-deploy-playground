@@ -101,6 +101,7 @@ spec:
           name: ghcr.io/ifrcgo/alert-hub-backend
           tag: develop.2a8cbe0
         ingress:
+          className: webapprouting.kubernetes.azure.com
           host: "alerthub-sandbox-api.ifrc.org"
           tls:
             secretName: "alerthub-helm-secret-cert"
