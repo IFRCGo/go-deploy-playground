@@ -1,13 +1,23 @@
 # Create random string for unique storage account name
 resource "random_string" "random" {
-  length  = 8
-  special = false
-  upper   = false
+  length  = 4
+  special = false # Exclude special characters
+  upper   = false # Exclude uppercase letters
+  numeric = true  # Include numbers
+  lower   = true  # Include lowercase letters
+}
+
+locals {
+  storage_account_name = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}staticsite${random_string.random.result}"
 }
 
 # Create Storage Account
 resource "azurerm_storage_account" "static_site" {
-  name                     = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}staticwebsite${random_string.random.result}"
+  name = trimspace(replace(
+    length(local.storage_account_name) > 24 ? substr(local.storage_account_name, 0, 24) : local.storage_account_name,
+    "/-+$/", ""
+  ))
+
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
