@@ -9,14 +9,15 @@ resource "random_string" "random" {
 
 locals {
   storage_account_name = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}${random_string.random.result}"
+  storage_account_name_trimmed = trimspace(replace(
+    length(local.storage_account_name) > 24 ? substr(local.storage_account_name, 0, 24) : local.storage_account_name,
+    "/-+$/", ""
+  ))
 }
 
 # Create Storage Account
 resource "azurerm_storage_account" "static_site" {
-  name = trimspace(replace(
-    length(local.storage_account_name) > 24 ? substr(local.storage_account_name, 0, 24) : local.storage_account_name,
-    "/-+$/", ""
-  ))
+  name = local.storage_account_name_trimmed
 
   resource_group_name      = var.resource_group_name
   location                 = var.location
