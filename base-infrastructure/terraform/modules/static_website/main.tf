@@ -1,6 +1,6 @@
 # Create random string for unique storage account name
 resource "random_string" "random" {
-  length  = 4
+  length  = 6
   special = false # Exclude special characters
   upper   = false # Exclude uppercase letters
   numeric = true  # Include numbers
@@ -8,7 +8,7 @@ resource "random_string" "random" {
 }
 
 locals {
-  storage_account_name = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}${random_string.random.result}"
+  storage_account_name = "${random_string.random.result}${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}"
   storage_account_name_trimmed = trimspace(replace(
     length(local.storage_account_name) > 24 ? substr(local.storage_account_name, 0, 24) : local.storage_account_name,
     "/-+$/", ""
