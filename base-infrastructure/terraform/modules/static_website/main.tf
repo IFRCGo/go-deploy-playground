@@ -8,7 +8,7 @@ resource "random_string" "random" {
 }
 
 locals {
-  storage_account_name = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}staticsite${random_string.random.result}"
+  storage_account_name = "${lower(replace(var.app_name, "[^a-zA-Z0-9]", ""))}${random_string.random.result}"
 }
 
 # Create Storage Account
