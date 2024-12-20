@@ -13,3 +13,7 @@ output "azure_subscription_id" {
   value     = data.azurerm_client_config.current.subscription_id
   sensitive = true
 }
+
+output "storage_account_name" {
+  value = local.storage_account_name
+}
