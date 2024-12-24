@@ -10,10 +10,11 @@ resource "azurerm_dns_zone" "ifrc" {
 }
 
 resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
-  name                = "go-${var.environment}-cluster"
-  location            = data.azurerm_resource_group.go_resource_group.location
-  resource_group_name = data.azurerm_resource_group.go_resource_group.name
-  dns_prefix          = "go-${var.environment}-cluster"
+  name                 = "go-${var.environment}-cluster"
+  location             = data.azurerm_resource_group.go_resource_group.location
+  resource_group_name  = data.azurerm_resource_group.go_resource_group.name
+  azure_policy_enabled = true
+  dns_prefix           = "go-${var.environment}-cluster"
 
   default_node_pool {
     name                        = "default"
