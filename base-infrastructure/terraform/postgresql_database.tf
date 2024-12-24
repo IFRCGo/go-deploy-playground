@@ -29,9 +29,9 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
 
 # Enable extensions
 resource "azurerm_postgresql_flexible_server_configuration" "extensions" {
-  name                = "azure.extensions"
-  server_id          = azurerm_postgresql_flexible_server.ifrc.id
-  value              = "POSTGIS"
+  name      = "azure.extensions"
+  server_id = azurerm_postgresql_flexible_server.ifrc.id
+  value     = "POSTGIS"
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "vnet_rule" {
@@ -51,7 +51,7 @@ resource "azurerm_postgresql_flexible_server_configuration" "effective_cache_siz
 resource "azurerm_postgresql_flexible_server_configuration" "shared_buffers" {
   name      = "shared_buffers"
   server_id = azurerm_postgresql_flexible_server.ifrc.id
-  value     = "2097152" # 2GB - About 25% of total RAM
+  value     = "786432"
 }
 
 resource "azurerm_postgresql_flexible_server_configuration" "work_mem" {

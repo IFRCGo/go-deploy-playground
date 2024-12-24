@@ -31,3 +31,7 @@ output "primary_blob_endpoint" {
   value = azurerm_storage_account.app_storage.primary_blob_endpoint
   #value = data.azurerm_storage_account.gosanbox1.primary_blob_endpoint
 }
+
+#output "site_storage_account" {
+#  value = module.alert_hub_frontend.storage_account_name
+#}
