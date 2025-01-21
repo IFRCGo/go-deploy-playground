@@ -2,7 +2,8 @@ resource "azurerm_container_registry_scope_map" "ci" {
   name = "${var.app_name}-${var.environment}-ci-scope-map"
 
   actions = [
-    "repositories/*/push",
+    "repositories/*/content/read",
+    "repositories/*/content/write"
   ]
 
   container_registry_name = azurerm_container_registry.shared.name
