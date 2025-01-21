@@ -5,7 +5,12 @@ locals {
 resource "azurerm_key_vault" "app_kv" {
   # Ensure vault name is not longer that 24 characters and doesn't end with a hyphen
   #regexreplace(var.input_string, "-+$", "")
-  name                       = length(local.vault_name) > 24 ? substr(local.vault_name, 0, 24) : regexreplace(local.vault_name, "-+$", "")
+  #name                       = length(local.vault_name) > 24 ? substr(local.vault_name, 0, 24) : regexreplace(local.vault_name, "-+$", "")
+  name = trimspace(replace(
+    length(local.vault_name) > 24 ? substr(local.vault_name, 0, 24) : local.vault_name,
+    "/-+$/", ""
+  ))
+
   enable_rbac_authorization  = true
   location                   = data.azurerm_resource_group.app_rg.location
   resource_group_name        = data.azurerm_resource_group.app_rg.name

@@ -54,3 +54,21 @@ module "alert_hub_vault" {
 
   vault_subnet_ids = [azurerm_subnet.app.id]
 }
+
+module "sdt_vault" {
+  source = "./modules/app_vault"
+
+  app_name                = "sdt"
+  cluster_namespace       = "sdt"
+  cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  environment             = var.environment
+  resource_group_name     = data.azurerm_resource_group.go_resource_group.name
+  service_account_name    = "sdt-sa"
+
+  secrets = {
+    CONTAINER_REGISTRY_USER     = module.go_container_registry.acr_token_username
+    CONTAINER_REGISTRY_PASSWORD = module.go_container_registry.acr_token_password
+  }
+
+  vault_subnet_ids = [azurerm_subnet.app.id]
+}

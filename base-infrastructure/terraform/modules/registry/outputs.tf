@@ -4,6 +4,6 @@ output "acr_token_username" {
 }
 
 output "acr_token_password" {
-  value     = azurerm_container_registry_token_password.ci.password1
+  value     = azurerm_container_registry_token_password.ci.password1[0].value
   sensitive = true
 }

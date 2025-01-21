@@ -3,6 +3,8 @@ locals {
 }
 
 resource "azurerm_postgresql_flexible_server_database" "app" {
+  count = var.database_server_id == null ? 0 : 1
+
   name      = local.app_database_name
   server_id = var.database_server_id
   collation = "en_US.utf8"
