@@ -68,7 +68,7 @@ module "sdt_vault" {
   secrets = {
     CONTAINER_REGISTRY_USER     = module.go_container_registry.acr_token_username
     CONTAINER_REGISTRY_PASSWORD = module.go_container_registry.acr_token_password
-    login_server                = module.go_container_registry.registry_server
+    LOGIN_SERVER                = module.go_container_registry.registry_server
   }
 
   vault_subnet_ids = [azurerm_subnet.app.id]
