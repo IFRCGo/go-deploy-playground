@@ -9,5 +9,5 @@ output "acr_token_password" {
 }
 
 output "registry_server" {
-  value = azurerm_container_registry.shared.login_server 
+  value = azurerm_container_registry.shared.login_server
 }
