@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sdt-sandbox-api
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api
+    chart: ifrcgo-sdt-helm-alpha
+    targetRevision: 0.0.1-project-test-ci.a91afff
+    helm:
+      valuesObject:
+        ingress:
+          tls:
+            enabled: false
+      # Azure configurations
+      azure:
+        aksSecretsProviderAvailable: true
+        keyvault:
+          name: "sdt-playground-key-vault"
+          clientId: "4cf37bd1-0d81-4f01-9750-852fa345ae21"
+          tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+
+      serviceAccount:
+        # Specifies whether a service account should be created
+        # Required when using workload identity to access Azure Key Vault Secrets
+        create: true
+        automount: true
+        annotations:
+          azure.workload.identity/client-id : "4cf37bd1-0d81-4f01-9750-852fa345ae21"
+        labels:
+          azure.workload.identity/use: "true"
+        name: "sdt-sa"
+      valueFiles:
+        - values-sandbox.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sdt
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

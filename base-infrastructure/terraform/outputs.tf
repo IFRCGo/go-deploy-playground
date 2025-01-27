@@ -22,6 +22,12 @@ output "alert_hub_storage_container" {
   value = module.alert_hub_vault.storage_container_names
 }
 
+output "sdt_resources" {
+  value = {
+    sdt_client_id = module.sdt_vault.workload_client_id
+  } 
+}
+
 output "storage_account_names" {
   value = azurerm_storage_account.app_storage.name
   #value = data.azurerm_storage_account.gosanbox1.name
