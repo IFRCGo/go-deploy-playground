@@ -33,7 +33,7 @@ resource "helm_release" "argo-cd" {
             "name" : "ifrcgoplaygroundcontainerregistry"
             "type" : "helm"
             "project" : "default"
-            "url" : "https://${module.go_container_registry.registry_server}/ifrcgo/sdt-api"
+            "url" : "https://${module.go_container_registry.registry_server}"
             "username" : "${module.go_container_registry.acr_token_username}"
             "password" : "${module.go_container_registry.acr_token_password}"
             "enableOCI" : "true"
