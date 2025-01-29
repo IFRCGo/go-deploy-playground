@@ -8,12 +8,9 @@ metadata:
 spec:
   project: default
   source:
-#    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api
-#    chart: ifrcgo-sdt-helm-alpha
-#    targetRevision: 0.0.1-project-test-ci.a91afff
-    repoURL: https://github.com/IFRCGo/sdt-api
-    targetRevision: project/test-ci
-    path: helm
+    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api
+    chart: ifrcgo-sdt-helm
+    targetRevision: 0.0.1-develop.fced14d
     helm:
       valuesObject:
         image:
