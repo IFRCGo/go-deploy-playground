@@ -8,9 +8,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api
-    chart: ifrcgo-sdt-helm
-    targetRevision: 0.0.1-develop.fced14d
+    repoURL: https://github.com/IFRCGo/sdt-api
+    targetRevision: project/add-pull-secret-config
+    path: helm
+#    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api
+#    chart: ifrcgo-sdt-helm
+#    targetRevision: 0.0.1-develop.fced14d
     helm:
       valuesObject:
         image:
