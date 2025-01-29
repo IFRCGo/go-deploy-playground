@@ -28,7 +28,7 @@ spec:
           BASE_DOMAIN: sdt-sandbox-api.ifrc.org
           FRONTEND_BASE_DOMAIN: sdt-sandbox.ifrc.org
           ALLOWED_HOSTS: "*.ifrc.org"
-
+        fullnameOverride: ifrcgo-sdt-sandbox
         # Azure related configurations
         azure:
           aksSecretsProviderAvailable: true
