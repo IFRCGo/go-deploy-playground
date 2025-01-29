@@ -19,6 +19,8 @@ spec:
         image:
           name: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-api-alpha
           tag: project-test-ci.83771c2
+        imagePullSecrets:
+          - name: acr-credentials
         ingress:
           tls:
             enabled: false
