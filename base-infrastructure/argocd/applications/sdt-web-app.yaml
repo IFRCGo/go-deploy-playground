@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sdt-sandbox-web-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/IFRCGo/sdt-web-app
+    targetRevision: project/fix-docker-build
+    path: nginx-serve/helm
+#    repoURL: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-web-app
+#    chart: sdt-web-app-nginx-serve-alpha
+#    targetRevision: 0.0.1-project-fix-docker-build.3b1f259
+    helm:
+      valuesObject:
+        ingress:
+          host: sdt-sandbox.ifrc.org
+          className: webapprouting.kubernetes.azure.com
+        image:
+          name: ifrcgoplaygroundcontainerregistry.azurecr.io/ifrcgo/sdt-web-app-alpha
+          tag: project-fix-docker-build.3b1f259
+        imagePullSecrets:
+          - name: acr-credentials
+        env:
+          APP_ENVIRONMENT: sandbox
+          APP_API_ENDPOINT: https://sdt-sandbox-api.ifrcgo.org
+          APP_CSRF_TOKEN: alpha-csrftoken
+          APP_SENTRY_DSN: https://random-token@random-user@sentry-test.io/10000
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sdt
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
