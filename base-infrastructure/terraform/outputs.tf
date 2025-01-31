@@ -22,10 +22,17 @@ output "alert_hub_storage_container" {
   value = module.alert_hub_vault.storage_container_names
 }
 
+output "identities" {
+  value =  {
+    cluster_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id,
+    kubelet_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.kubelet_identity[0].object_id
+  }
+}
+
 output "sdt_resources" {
   value = {
     sdt_client_id = module.sdt_vault.workload_client_id
-  } 
+  }
 }
 
 output "storage_account_names" {
