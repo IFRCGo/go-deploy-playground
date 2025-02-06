@@ -36,7 +36,12 @@ resource "azurerm_role_definition" "acr_token_password_reader" {
   permissions {
     actions = [
       "Microsoft.ContainerRegistry/registries/tokens/read",
-      "Microsoft.ContainerRegistry/registries/credentials/list/action",
+      #"Microsoft.ContainerRegistry/registries/credentials/list/action",
+      "Microsoft.ContainerRegistry/registries/listCredentials/action",
+      #"Microsoft.ContainerRegistry/registries/regenerateCredential/action",
+      #"Microsoft.ContainerRegistry/registries/generateCredentials/action",
+      #"Microsoft.ContainerRegistry/registries/credentialSets/read",
+      #"Microsoft.ContainerRegistry/registries/metadata/read",
     ]
     not_actions = []
   }
