@@ -22,6 +22,15 @@ output "alert_hub_storage_container" {
   value = module.alert_hub_vault.storage_container_names
 }
 
+# Montandon ETL
+output "montandon_key_vault_name" {
+  value = module.montandon_vault.key_vault_name
+}
+
+output "montandon_client_id" {
+  value = module.montandon_vault.workload_client_id
+}
+
 output "identities" {
   value =  {
     cluster_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id,

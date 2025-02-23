@@ -73,3 +73,23 @@ module "sdt_vault" {
 
   vault_subnet_ids = [azurerm_subnet.app.id]
 }
+
+module "montandon_vault" {
+  source = "./modules/app_vault"
+
+  app_name                = "montandon"
+  cluster_namespace       = "montandon-etl"
+  cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  database_server_id      = azurerm_postgresql_flexible_server.ifrc.id
+  environment             = var.environment
+  resource_group_name     = data.azurerm_resource_group.go_resource_group.name
+  service_account_name    = "service-token-reader"
+
+  secrets = {
+    DB_USER     = var.psql_administrator_login
+    DB_PASSWORD = random_password.db_admin.result
+    DB_HOST     = azurerm_postgresql_flexible_server.ifrc.fqdn
+  }
+
+  vault_subnet_ids = [azurerm_subnet.app.id]
+}
