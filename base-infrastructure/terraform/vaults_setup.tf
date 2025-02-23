@@ -91,5 +91,16 @@ module "montandon_vault" {
     DB_HOST     = azurerm_postgresql_flexible_server.ifrc.fqdn
   }
 
+  storage_config = {
+    container_refs = [
+      "media",
+      "static"
+    ]
+
+    enabled              = true
+    storage_account_id   = azurerm_storage_account.app_storage.id
+    storage_account_name = azurerm_storage_account.app_storage.name
+  }
+
   vault_subnet_ids = [azurerm_subnet.app.id]
 }
