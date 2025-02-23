@@ -34,7 +34,7 @@ spec:
           AZURE_STORAGE_MEDIA_CONTAINER: montandon-etl-playground-media-container
           AZURE_STORAGE_STATIC_CONTAINER: montandon-etl-playground-static-container
           # ETL Load config
-          EOAPI_DOMAIN:
+          EOAPI_DOMAIN: "montandon-eoapi-playground.ifrc.org"
         # Azure configurations
         azure:
           aksSecretsProviderAvailable: true
