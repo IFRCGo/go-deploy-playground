@@ -24,6 +24,10 @@ spec:
           tls:
             enabled: true
             secretName: montandon-helm-secret-cert
+
+        localCacheVolume:
+          storageClass: azurefile-csi
+
         api:
           resources:
             requests:
