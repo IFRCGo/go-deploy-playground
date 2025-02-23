@@ -16,6 +16,7 @@ spec:
         image:
           name: ghcr.io/ifrcgo/montandon-etl
           tag: develop.f7f7975
+
         ingress:
           enabled: true
           host: montandon-etl-sandbox.ifrc.org
@@ -23,6 +24,24 @@ spec:
           tls:
             enabled: true
             secretName: montandon-helm-secret-cert
+        api:
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 0.5Gi
+            limits:
+              cpu: "2"
+              memory: 1Gi
+        worker:
+          beat:
+            resources:
+              requests:
+                cpu: "0.2"
+                memory: 0.5Gi
+              limits:
+                cpu: "1"
+                memory: 1Gi
+        # Environment variables
         env:
           DJANGO_DEBUG: false
           DJANGO_TIME_ZONE: UTC
