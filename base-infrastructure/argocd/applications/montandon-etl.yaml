@@ -10,12 +10,12 @@ spec:
   source:
     repoURL: ghcr.io/ifrcgo/montandon-etl
     chart: montandon-etl-helm
-    targetRevision: 0.0.1-develop.f7f7975
+    targetRevision: 0.0.1-develop.02d8c49
     helm:
       valuesObject:
         image:
           name: ghcr.io/ifrcgo/montandon-etl
-          tag: develop.f7f7975
+          tag: develop.02d8c49
 
         ingress:
           enabled: true
