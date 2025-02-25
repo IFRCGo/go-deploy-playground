@@ -1,88 +1,88 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: montandon-etl
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: ghcr.io/ifrcgo/montandon-etl
-    chart: montandon-etl-helm
-    targetRevision: 0.0.1-develop.02d8c49
-    helm:
-      valuesObject:
-        image:
-          name: ghcr.io/ifrcgo/montandon-etl
-          tag: develop.02d8c49
-
-        ingress:
-          enabled: true
-          host: montandon-etl-sandbox.ifrc.org
-          className: webapprouting.kubernetes.azure.com
-          tls:
-            enabled: true
-            secretName: montandon-helm-secret-cert
-
-        localCacheVolume:
-          storageClass: azurefile-csi
-
-        api:
-          resources:
-            requests:
-              cpu: "0.2"
-              memory: 0.5Gi
-            limits:
-              cpu: "2"
-              memory: 1Gi
-        worker:
-          beat:
-            resources:
-              requests:
-                cpu: "0.2"
-                memory: 0.5Gi
-              limits:
-                cpu: "1"
-                memory: 1Gi
-        # Environment variables
-        env:
-          DJANGO_DEBUG: false
-          DJANGO_TIME_ZONE: UTC
-          # App Domain
-          DJANGO_ALLOWED_HOSTS: "*"
-          # Azure configs
-          AZURE_STORAGE_ENABLE: true
-          AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
-          AZURE_STORAGE_MEDIA_CONTAINER: montandon-playground-media-container
-          AZURE_STORAGE_STATIC_CONTAINER: montandon-playground-static-container
-          # ETL Load config
-          EOAPI_DOMAIN: "montandon-eoapi-playground.ifrc.org"
-        # Azure configurations
-        azure:
-          aksSecretsProviderAvailable: true
-          keyvault:
-            name: "montandon-playground-key"
-            clientId: "1a5d3781-4dcc-4d3e-9c7f-cfe176e765fa"
-            tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
-        serviceAccount:
-          # Specifies whether a service account should be created
-          # Required when using workload identity to access Azure Key Vault Secrets
-          create: true
-          automount: true
-          annotations:
-            azure.workload.identity/client-id : "1a5d3781-4dcc-4d3e-9c7f-cfe176e765fa"
-          labels:
-            azure.workload.identity/use: "true"
-          name: "service-token-reader"
-      valueFiles:
-        - values-test.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: montandon-etl
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: montandon-etl
+#  namespace: argocd
+#  finalizers:
+#    - resources-finalizer.argocd.argoproj.io
+#spec:
+#  project: default
+#  source:
+#    repoURL: ghcr.io/ifrcgo/montandon-etl
+#    chart: montandon-etl-helm
+#    targetRevision: 0.0.1-develop.02d8c49
+#    helm:
+#      valuesObject:
+#        image:
+#          name: ghcr.io/ifrcgo/montandon-etl
+#          tag: develop.02d8c49
+#
+#        ingress:
+#          enabled: true
+#          host: montandon-etl-sandbox.ifrc.org
+#          className: webapprouting.kubernetes.azure.com
+#          tls:
+#            enabled: true
+#            secretName: montandon-helm-secret-cert
+#
+#        localCacheVolume:
+#          storageClass: azurefile-csi
+#
+#        api:
+#          resources:
+#            requests:
+#              cpu: "0.2"
+#              memory: 0.5Gi
+#            limits:
+#              cpu: "2"
+#              memory: 1Gi
+#        worker:
+#          beat:
+#            resources:
+#              requests:
+#                cpu: "0.2"
+#                memory: 0.5Gi
+#              limits:
+#                cpu: "1"
+#                memory: 1Gi
+#        # Environment variables
+#        env:
+#          DJANGO_DEBUG: false
+#          DJANGO_TIME_ZONE: UTC
+#          # App Domain
+#          DJANGO_ALLOWED_HOSTS: "*"
+#          # Azure configs
+#          AZURE_STORAGE_ENABLE: true
+#          AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
+#          AZURE_STORAGE_MEDIA_CONTAINER: montandon-playground-media-container
+#          AZURE_STORAGE_STATIC_CONTAINER: montandon-playground-static-container
+#          # ETL Load config
+#          EOAPI_DOMAIN: "montandon-eoapi-playground.ifrc.org"
+#        # Azure configurations
+#        azure:
+#          aksSecretsProviderAvailable: true
+#          keyvault:
+#            name: "montandon-playground-key"
+#            clientId: "1a5d3781-4dcc-4d3e-9c7f-cfe176e765fa"
+#            tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+#        serviceAccount:
+#          # Specifies whether a service account should be created
+#          # Required when using workload identity to access Azure Key Vault Secrets
+#          create: true
+#          automount: true
+#          annotations:
+#            azure.workload.identity/client-id : "1a5d3781-4dcc-4d3e-9c7f-cfe176e765fa"
+#          labels:
+#            azure.workload.identity/use: "true"
+#          name: "service-token-reader"
+#      valueFiles:
+#        - values-test.yaml
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: montandon-etl
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=true
