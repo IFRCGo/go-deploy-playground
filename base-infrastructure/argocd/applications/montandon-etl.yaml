@@ -54,8 +54,8 @@ spec:
           # Azure configs
           AZURE_STORAGE_ENABLE: true
           AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
-          AZURE_STORAGE_MEDIA_CONTAINER: montandon-etl-playground-media-container
-          AZURE_STORAGE_STATIC_CONTAINER: montandon-etl-playground-static-container
+          AZURE_STORAGE_MEDIA_CONTAINER: montandon-playground-media-container
+          AZURE_STORAGE_STATIC_CONTAINER: montandon-playground-static-container
           # ETL Load config
           EOAPI_DOMAIN: "montandon-eoapi-playground.ifrc.org"
         # Azure configurations
