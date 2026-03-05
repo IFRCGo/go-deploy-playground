@@ -2,7 +2,8 @@ trigger:
 - main
 
 # no PR triggers
-pr: none
+pr:
+  drafts: "false"
 
 resources:
   repositories:
@@ -10,7 +11,7 @@ resources:
     type: github
     endpoint: IFRCGo
     name: IFRCGo/go-deploy-playground
-    ref: ${{ variables['Build.SourceBranchName'] }}
+    ref: ${{ variables['Build.SourceBranch'] }}
 
 pool:
   vmImage: ubuntu-latest
@@ -21,18 +22,45 @@ jobs:
   - checkout: go-deploy-playground
     displayName: "Checkout go-deploy-playground"
     path: go-deploy-playground
-  
-  - task: TerraformInstaller@1
-    inputs:
-      terraformVersion: 'latest'
-    displayName: "Install Terraform"
 
-  - script: chmod +x $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/setup-infra.sh
-    displayName: "Make setup-infra executable"
+  - task: PowerShell@2
+    name: GetTerraformVersion
+    inputs:
+      targetType: 'inline'
+      script: |
+        $version = Get-Content .terraform-version | Select-Object -First 1
+        Write-Host "Terraform version found: $version"
+        # Set pipeline variable
+        Write-Host "##vso[task.setvariable variable=terraformVersion]$version"
+
+  - task: "TerraformInstaller@1"
+    inputs:
+      terraformVersion: '$(terraformVersion)'
+
+  - script: chmod +x $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/infra.sh
+    displayName: "Make infra script executable"
+
+  - bash: $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/infra.sh plan
+    condition: and(eq(variables['Build.Reason'], 'PullRequest'), eq(variables['System.PullRequest.targetBranchName'], 'main'))
+    displayName: "Plan Playground Infrastructure"
+    env:
+      TF_VAR_environment: playground
+
+      # For azurerm backend
+      ARM_SUBSCRIPTION_ID: $(TERRAFORM_SUBSCRIPTION_ID)
+      ARM_TENANT_ID: $(TERRAFORM_TENANT_ID)
+      ARM_CLIENT_ID: $(TERRAFORM_SERVICE_PRINCIPAL_ID)
+      ARM_CLIENT_SECRET: $(TERRAFORM_SERVICE_PRINCIPAL_KEY)
+      ARM_ACCESS_KEY: $(TERRAFORM_STORAGE_KEY)
+
+      # For Azure CLI
+      AZURE_TENANT_ID: $(TERRAFORM_TENANT_ID)
+      AZURE_CLIENT_ID: $(TERRAFORM_SERVICE_PRINCIPAL_ID)
+      AZURE_CLIENT_SECRET: $(TERRAFORM_SERVICE_PRINCIPAL_KEY)
 
   # Deploy Terraform managed infrastructure to playground environment
-  - bash: $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/setup-infra.sh
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  - bash: $(Pipeline.Workspace)/go-deploy-playground/base-infrastructure/scripts/infra.sh apply
+    condition: and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: "Deploy Playground Infrastructure"
     env:
       TF_VAR_environment: playground
