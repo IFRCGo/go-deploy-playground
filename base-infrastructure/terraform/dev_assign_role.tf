@@ -27,4 +27,3 @@ resource "azurerm_role_assignment" "montandon_vault_admin" {
   role_definition_name = "Key Vault Administrator"
   principal_id         = "32053268-3970-48f3-9b09-c4280cd0b67d"
 }
-
