@@ -1,9 +1,9 @@
 provider "helm" {
   kubernetes {
-    host                   = azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.host
-    client_certificate     = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_certificate)
-    client_key             = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.client_key)
-    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config.0.cluster_ca_certificate)
+    host                   = azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config[0].host
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config[0].client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config[0].client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.go_kubernetes_cluster.kube_config[0].cluster_ca_certificate)
   }
 }
 
@@ -34,8 +34,8 @@ resource "helm_release" "argo-cd" {
             "type" : "helm"
             "project" : "default"
             "url" : "https://${module.go_container_registry.registry_server}"
-            "username" : "${module.go_container_registry.acr_token_username}"
-            "password" : "${module.go_container_registry.acr_token_password}"
+            "username" : module.go_container_registry.acr_token_username
+            "password" : module.go_container_registry.acr_token_password
             "enableOCI" : "true"
           }
         ]

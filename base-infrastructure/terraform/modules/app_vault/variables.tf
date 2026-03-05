@@ -53,6 +53,8 @@ variable "storage_config" {
   }
 }
 
+# FIXME: Remove this is not required
+# tflint-ignore: terraform_unused_declarations
 variable "vault_subnet_ids" {
   type = list(string)
 }
