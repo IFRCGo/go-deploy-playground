@@ -50,7 +50,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   }
 
   web_app_routing {
-    dns_zone_id = azurerm_dns_zone.ifrc.id
+    dns_zone_ids = [azurerm_dns_zone.ifrc.id]
   }
 
   workload_identity_enabled = true

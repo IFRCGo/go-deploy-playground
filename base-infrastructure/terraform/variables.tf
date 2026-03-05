@@ -4,6 +4,8 @@ variable "environment" {
   description = "defines the environment to deploy to"
 }
 
+# FIXME: Remove this is not required
+# tflint-ignore: terraform_unused_declarations
 variable "location" {
   type        = string
   default     = "westeurope"
