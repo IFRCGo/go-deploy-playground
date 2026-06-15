@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alert-hub-backend
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/ifrcgo
+    chart: ifrcgo-alert-hub-helm
+    targetRevision: 0.1.1-develop.c6f10f53
+    helm:
+      valueFiles:
+        - values-go-deploy.yaml
+        - values-staging.yaml
+      valuesObject:
+        app:
+          environment: playground
+          ingress:
+            host: "alerthub-sandbox-api.ifrc.org"
+            tls:
+              secretName: "alerthub-helm-secret-cert"
+          env:
+            APP_FRONTEND_HOST: "https://alerthub-sandbox.ifrc.org"
+            APP_DOMAIN: "alerthub-sandbox-api.ifrc.org"
+            DJANGO_ALLOWED_HOSTS: "alerthub-sandbox-api.ifrc.org"
+            SESSION_COOKIE_DOMAIN: ".ifrc.org"
+            CSRF_COOKIE_DOMAIN: ".ifrc.org"
+            CORS_ALLOWED_ORIGINS: "https://alerthub-sandbox.ifrc.org"
+            # Blob Storage Configs
+            USE_AZURE_STORAGE: False
+          serviceAccount:
+            annotations:
+              azure.workload.identity/client-id: ""
+          secretsStoreCsiDriver:
+            parameters:
+              clientID: ""
+              keyvaultName: "alert-hub-playground-key-vault"
+              tenantId: ""
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: alert-hub
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

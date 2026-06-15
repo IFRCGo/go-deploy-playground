@@ -10,17 +10,17 @@ output "tenant_id" {
 #   value = module.secrets.workload_client_id
 # }
 
-#output "alert_hub_key_vault_name" {
-#  value = module.alert_hub_vault.key_vault_name
-#}
-#
-#output "alert_hub_client_id" {
-#  value = module.alert_hub_vault.workload_client_id
-#}
-#
-#output "alert_hub_storage_container" {
-#  value = module.alert_hub_vault.storage_container_names
-#}
+output "alert_hub_key_vault_name" {
+  value = module.alert_hub_vault.key_vault_name
+}
+
+output "alert_hub_client_id" {
+  value = module.alert_hub_vault.workload_client_id
+}
+
+output "alert_hub_storage_container" {
+  value = module.alert_hub_vault.storage_container_names
+}
 
 # Montandon ETL
 # output "montandon_key_vault_name" {
@@ -57,19 +57,6 @@ output "primary_blob_endpoint" {
 #output "site_storage_account" {
 #  value = module.alert_hub_frontend.storage_account_name
 #}
-
-# GO-API
-output "go_api_key_vault_name" {
-  value = module.go_api_vault.key_vault_name
-}
-
-output "go_api_client_id" {
-  value = module.go_api_vault.workload_client_id
-}
-
-output "go_api_database_name" {
-  value = module.go_api_vault.database_name
-}
 
 # STATIC IP
 output "nginx_public_ip" {
