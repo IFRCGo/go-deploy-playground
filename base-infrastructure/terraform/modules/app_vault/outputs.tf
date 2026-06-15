@@ -17,3 +17,8 @@ output "workload_id" {
 output "storage_container_names" {
   value = var.storage_config.enabled ? azurerm_storage_container.app_container[*].name : null
 }
+
+output "database_name" {
+  value       = var.database_server_id != null ? local.app_database_name : null
+  description = "The PostgreSQL database name created for this app. Null if no database_server_id was provided."
+}

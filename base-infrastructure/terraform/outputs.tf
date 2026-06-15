@@ -2,13 +2,13 @@ output "tenant_id" {
   value = data.azurerm_client_config.current.tenant_id
 }
 
-output "risk_module_key_vault_name" {
-  value = module.secrets.key_vault_name
-}
+# output "risk_module_key_vault_name" {
+#   value = module.secrets.key_vault_name
+# }
 
-output "risk_module_client_id" {
-  value = module.secrets.workload_client_id
-}
+# output "risk_module_client_id" {
+#   value = module.secrets.workload_client_id
+# }
 
 #output "alert_hub_key_vault_name" {
 #  value = module.alert_hub_vault.key_vault_name
@@ -23,26 +23,26 @@ output "risk_module_client_id" {
 #}
 
 # Montandon ETL
-output "montandon_key_vault_name" {
-  value = module.montandon_vault.key_vault_name
-}
+# output "montandon_key_vault_name" {
+#   value = module.montandon_vault.key_vault_name
+# }
 
-output "montandon_client_id" {
-  value = module.montandon_vault.workload_client_id
-}
+# output "montandon_client_id" {
+#   value = module.montandon_vault.workload_client_id
+# }
 
-output "identities" {
-  value = {
-    cluster_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id,
-    kubelet_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.kubelet_identity[0].object_id
-  }
-}
+# output "identities" {
+#   value = {
+#     cluster_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id,
+#     kubelet_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.kubelet_identity[0].object_id
+#   }
+# }
 
-output "sdt_resources" {
-  value = {
-    sdt_client_id = module.sdt_vault.workload_client_id
-  }
-}
+# output "sdt_resources" {
+#   value = {
+#     sdt_client_id = module.sdt_vault.workload_client_id
+#   }
+# }
 
 output "storage_account_names" {
   value = azurerm_storage_account.app_storage.name
@@ -57,3 +57,25 @@ output "primary_blob_endpoint" {
 #output "site_storage_account" {
 #  value = module.alert_hub_frontend.storage_account_name
 #}
+
+# GO-API
+output "go_api_key_vault_name" {
+  value = module.go_api_vault.key_vault_name
+}
+
+output "go_api_client_id" {
+  value = module.go_api_vault.workload_client_id
+}
+
+output "go_api_database_name" {
+  value = module.go_api_vault.database_name
+}
+
+# STATIC IP
+output "nginx_public_ip" {
+  value = azurerm_public_ip.nginx.ip_address
+}
+
+output "traefik_public_ip" {
+  value = azurerm_public_ip.traefik.ip_address
+}

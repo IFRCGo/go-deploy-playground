@@ -7,7 +7,7 @@ resource "azurerm_virtual_network" "app" {
 
 resource "azurerm_subnet" "app" {
   name                 = "go-${var.environment}-cluster-subnet"
-  address_prefixes     = ["10.1.0.0/16"]
+  address_prefixes     = [local.aks_subnet_cidr]
   resource_group_name  = data.azurerm_resource_group.go_resource_group.name
   service_endpoints    = ["Microsoft.KeyVault"]
   virtual_network_name = azurerm_virtual_network.app.name

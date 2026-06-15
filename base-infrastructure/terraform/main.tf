@@ -49,9 +49,5 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     ManagedBy   = "IFRCGo"
   }
 
-  web_app_routing {
-    dns_zone_ids = [azurerm_dns_zone.ifrc.id]
-  }
-
   workload_identity_enabled = true
 }
