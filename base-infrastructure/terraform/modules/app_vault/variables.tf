@@ -15,6 +15,12 @@ variable "database_server_id" {
   default = null
 }
 
+variable "database_name" {
+  type        = string
+  default     = null
+  description = "Override the computed database name. If null, uses app_name + environment + db"
+}
+
 variable "environment" {
   type = string
 }

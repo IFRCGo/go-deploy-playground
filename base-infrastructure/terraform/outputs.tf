@@ -2,45 +2,10 @@ output "tenant_id" {
   value = data.azurerm_client_config.current.tenant_id
 }
 
-output "risk_module_key_vault_name" {
-  value = module.secrets.key_vault_name
-}
-
-output "risk_module_client_id" {
-  value = module.secrets.workload_client_id
-}
-
-#output "alert_hub_key_vault_name" {
-#  value = module.alert_hub_vault.key_vault_name
-#}
-#
-#output "alert_hub_client_id" {
-#  value = module.alert_hub_vault.workload_client_id
-#}
-#
-#output "alert_hub_storage_container" {
-#  value = module.alert_hub_vault.storage_container_names
-#}
-
-# Montandon ETL
-output "montandon_key_vault_name" {
-  value = module.montandon_vault.key_vault_name
-}
-
-output "montandon_client_id" {
-  value = module.montandon_vault.workload_client_id
-}
-
 output "identities" {
   value = {
     cluster_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id,
     kubelet_id = azurerm_kubernetes_cluster.go_kubernetes_cluster.kubelet_identity[0].object_id
-  }
-}
-
-output "sdt_resources" {
-  value = {
-    sdt_client_id = module.sdt_vault.workload_client_id
   }
 }
 
@@ -52,6 +17,28 @@ output "storage_account_names" {
 output "primary_blob_endpoint" {
   value = azurerm_storage_account.app_storage.primary_blob_endpoint
   #value = data.azurerm_storage_account.gosanbox1.primary_blob_endpoint
+}
+
+# STATIC IP
+output "nginx_public_ip" {
+  value = azurerm_public_ip.nginx.ip_address
+}
+
+output "traefik_public_ip" {
+  value = azurerm_public_ip.traefik.ip_address
+}
+
+# ALERT_HUB
+output "alert_hub_key_vault_name" {
+  value = module.alert_hub_vault.key_vault_name
+}
+
+output "alert_hub_client_id" {
+  value = module.alert_hub_vault.workload_client_id
+}
+
+output "alert_hub_storage_container" {
+  value = module.alert_hub_vault.storage_container_names
 }
 
 #output "site_storage_account" {

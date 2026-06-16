@@ -16,3 +16,8 @@ variable "psql_administrator_login" {
   type    = string
   default = "psqladmin"
 }
+
+
+locals {
+  aks_subnet_cidr = "10.1.0.0/16"
+}

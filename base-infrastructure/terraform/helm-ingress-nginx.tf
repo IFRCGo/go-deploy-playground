@@ -1,0 +1,48 @@
+# NOTE: Using same content as go-deploy
+
+resource "helm_release" "nginx" {
+  name             = "ingress-nginx"
+  repository       = "https://kubernetes.github.io/ingress-nginx"
+  chart            = "ingress-nginx"
+  version          = "4.12.1"
+  namespace        = "ingress-nginx"
+  create_namespace = true
+
+  depends_on = [
+    azurerm_public_ip.nginx,
+    azurerm_kubernetes_cluster.go_kubernetes_cluster,
+  ]
+
+  set {
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-resource-group"
+    value = data.azurerm_resource_group.go_resource_group.name
+  }
+  set {
+    name  = "controller.service.loadBalancerIP"
+    value = azurerm_public_ip.nginx.ip_address
+  }
+  set {
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
+  }
+  set {
+    name  = "controller.replicaCount"
+    value = 1
+  }
+  set {
+    name  = "controller.config.use-forwarded-headers"
+    value = "true"
+  }
+  set {
+    name  = "controller.config.compute-full-forwarded-for"
+    value = "true"
+  }
+  set {
+    name  = "controller.config.real-ip-header"
+    value = "X-Forwarded-For"
+  }
+  set {
+    name  = "controller.config.set-real-ip-from"
+    value = local.aks_subnet_cidr
+  }
+}
