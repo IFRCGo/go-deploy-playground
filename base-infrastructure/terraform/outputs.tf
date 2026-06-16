@@ -44,30 +44,3 @@ output "alert_hub_storage_container" {
 #output "site_storage_account" {
 #  value = module.alert_hub_frontend.storage_account_name
 #}
-
-# RISK_SERVER
-# output "risk_module_key_vault_name" {
-#   value = module.secrets.key_vault_name
-# }
-
-# output "risk_module_client_id" {
-#   value = module.secrets.workload_client_id
-# }
-
-
-# Montandon_ETL
-# output "montandon_key_vault_name" {
-#   value = module.montandon_vault.key_vault_name
-# }
-
-# output "montandon_client_id" {
-#   value = module.montandon_vault.workload_client_id
-# }
-
-
-# SDT
-# output "sdt_resources" {
-#   value = {
-#     sdt_client_id = module.sdt_vault.workload_client_id
-#   }
-# }
