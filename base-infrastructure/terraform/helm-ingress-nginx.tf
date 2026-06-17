@@ -17,6 +17,11 @@ resource "helm_release" "nginx" {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-resource-group"
     value = data.azurerm_resource_group.go_resource_group.name
   }
+  # Setting it to default for now
+  set {
+    name  = "controller.ingressClassResource.default"
+    value = "true"
+  }
   set {
     name  = "controller.service.loadBalancerIP"
     value = azurerm_public_ip.nginx.ip_address
