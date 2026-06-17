@@ -29,6 +29,13 @@ spec:
             SESSION_COOKIE_DOMAIN: ".ifrc.org"
             CSRF_COOKIE_DOMAIN: ".ifrc.org"
             CORS_ALLOWED_ORIGINS: "https://alerthub-sandbox.ifrc.org"
+            USE_AZURE_STORAGE: "true"
+            AZURE_CLIENT_ID: 690a7bb9-bd7c-4419-8f57-e5d6f66e0386
+            AZURE_TENANT_ID: a2b53be5-734e-4e6c-ab0d-d184f60fd917
+            AZURE_STORAGE_MEDIA_CONTAINER: alert-hub-playground-media-container
+            AZURE_STORAGE_STATIC_CONTAINER: alert-hub-playground-static-container
+            AZURE_STORAGE_ACCOUNT_NAME: goplaygroundstorage
+            AZURE_STORAGE_MANAGED_IDENTITY: "true"
           serviceAccount:
             annotations:
               azure.workload.identity/client-id: "690a7bb9-bd7c-4419-8f57-e5d6f66e0386"
