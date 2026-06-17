@@ -1,3 +1,10 @@
+# Required for purging soft-deleted Key Vaults
+resource "azurerm_role_assignment" "keyvault_purge" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Key Vault Contributor"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
 # Sushil
 resource "azurerm_role_assignment" "alert_hub_vault_admin" {
   scope                = module.alert_hub_vault.key_vault_id

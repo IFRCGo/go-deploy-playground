@@ -43,11 +43,13 @@ resource "helm_release" "traefik" {
     # Trust X-Forwarded-For only from the AKS subnet (10.1.0.0/16)
     ports = {
       web = {
-        redirections = {
-          entryPoint = {
-            to        = "websecure"
-            scheme    = "https"
-            permanent = true
+        http = {
+          redirections = {
+            entryPoint = {
+              to        = "websecure"
+              scheme    = "https"
+              permanent = true
+            }
           }
         }
         forwardedHeaders = {
