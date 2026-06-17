@@ -51,3 +51,9 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
 
   workload_identity_enabled = true
 }
+
+resource "azurerm_role_assignment" "network" {
+  scope                = data.azurerm_resource_group.go_resource_group.id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_kubernetes_cluster.go_kubernetes_cluster.identity[0].principal_id
+}
