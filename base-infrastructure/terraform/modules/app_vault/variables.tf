@@ -47,7 +47,15 @@ variable "storage_config" {
       enabled              = bool
       storage_account_id   = any
       storage_account_name = any
-      container_refs       = list(string)
+
+      container_refs = list(
+        object(
+          {
+            container_ref = string
+            access_type   = string
+          }
+        )
+      )
     }
   )
 

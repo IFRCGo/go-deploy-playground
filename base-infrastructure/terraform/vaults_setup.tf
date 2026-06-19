@@ -24,8 +24,14 @@ module "alert_hub_vault" {
 
   storage_config = {
     container_refs = [
-      "media",
-      "static"
+      {
+        container_ref = "media"
+        access_type   = "private"
+      },
+      {
+        container_ref = "static"
+        access_type   = "blob"
+      }
     ]
 
     enabled              = true
