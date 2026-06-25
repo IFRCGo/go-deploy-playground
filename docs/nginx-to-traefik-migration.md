@@ -1,4 +1,4 @@
-# Nginx -> Traefik Migration (Zero Downtime)
+# Nginx -> Traefik Migration
 
 ## What was set up so far
 
@@ -16,17 +16,17 @@ Right now: alert-hub works through nginx. Traefik runs but is idle. DNS has poin
 
 ## Why we are switching
 
-Traefik is the long-term plan. We used nginx first to get alert-hub live fast. Now we move to traefik.
+Traefik is the long-term plan. We used nginx first to get alert-hub live. Now we move to traefik.
 
-## How we switch (no downtime)
+## How we switch it traefik
 
-We make traefik ready before we change DNS. That way, the DNS change is the only moment that matters — and traefik is already set up and ready by then.
+We make traefik ready before we change DNS. That way, the DNS change is the only moment that matters and traefik is already set up and ready by then.
 
 The key step: tell traefik to also watch `nginx`-class ingresses. Then traefik can serve traffic on its own IP before anyone switches to it.
 
 ---
 
-## Phase 1 — Tell Traefik to Watch Nginx Ingresses
+## Phase 1 — Set Traefik to watch Nginx Ingresses
 
 > No impact on users. Traefik starts handling ingresses on its own IP.
 
@@ -137,7 +137,7 @@ Change:
 solvers:
   - http01:
       ingress:
-        ingressClassName: nginx   # change to traefik
+        ingressClassName: traefik
 ```
 
 **11. Update alert-hub ingress files to use traefik:**
@@ -155,7 +155,7 @@ ArgoCD will pick up the change and sync on its own.
 ```hcl
 ingressClass = {
   enabled        = true
-  isDefaultClass = true   # change to true
+  isDefaultClass = true
 }
 ```
 
