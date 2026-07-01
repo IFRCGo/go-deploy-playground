@@ -20,10 +20,6 @@ output "primary_blob_endpoint" {
 }
 
 # STATIC IP
-output "nginx_public_ip" {
-  value = azurerm_public_ip.nginx.ip_address
-}
-
 output "traefik_public_ip" {
   value = azurerm_public_ip.traefik.ip_address
 }
