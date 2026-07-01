@@ -28,16 +28,11 @@ resource "helm_release" "traefik" {
     }
 
     ingressClass = {
-      enabled = true
-      # NOTE: Keep false until nginx is fully removed
-      isDefaultClass = false
+      enabled        = true
+      isDefaultClass = true
     }
 
     providers = {
-      kubernetesIngress = {
-        # TODO: remove after all ingress manifests are updated to ingressClassName: traefik and ClusterIssuer solver is switched
-        ingressClass = "nginx"
-      }
       kubernetesIngressNGINX = {
         enabled = true
       }

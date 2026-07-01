@@ -126,21 +126,7 @@ Expected: `200` or `301/302` (not `000` or `5xx`).
 
 > Update config files to match the new state. No impact on users.
 
-**10. Update the SSL cert issuer to use traefik:**
-
-```bash
-kubectl edit clusterissuer letsencrypt-prod
-```
-
-Change:
-```yaml
-solvers:
-  - http01:
-      ingress:
-        ingressClassName: traefik
-```
-
-**11. Update alert-hub ingress files to use traefik:**
+**10. Update alert-hub ingress files to use traefik:**
 
 Files to update:
 - `base-infrastructure/argocd/applications/alert-hub-frontend.yaml`
@@ -202,18 +188,20 @@ Do not delete nginx until you are sure traefik is working well.
 
 **Phase 1 — Tell Traefik to Watch Nginx Ingresses**
 - [x] `providers.kubernetesIngress.ingressClass = "nginx"` added to `traefik.tf`
-- [ ] Traefik serves alert-hub at traefik IP (checked via curl)
+- [x] Traefik serves alert-hub at traefik IP (checked via curl)
 
 **Phase 3 — Switch DNS**
-- [ ] DNS A records changed to traefik IP
-- [ ] HTTPS checked end-to-end via real domain
+- [x] DNS A records changed to traefik IP
+- [x] HTTPS checked end-to-end via real domain
 
 **Phase 4 — Clean Up Config**
-- [ ] ClusterIssuer updated to `ingressClassName: traefik`
-- [ ] Alert-hub ingress files updated to `ingressClassName: traefik`
-- [ ] Traefik set as default ingress
-- [ ] `ingressClass: nginx` removed from traefik providers config
+- [x] Alert-hub ingress files updated to `ingressClassName: traefik`
+- [x] Traefik set as default ingress
+- [x] `ingressClass: nginx` removed from traefik providers config
 
 **Phase 5 — Remove Nginx**
-- [ ] Nginx logs show zero traffic
-- [ ] Nginx removed via terraform
+- [x] Nginx logs show zero traffic
+- [x] Nginx removed via terraform
+- [ ] `kubectl get pods -n ingress-nginx` returns nothing
+- [ ] Traefik is healthy: `kubectl get pods -n traefik`
+- [ ] Traefik is getting traffic: `kubectl logs -n traefik -l app.kubernetes.io/name=traefik --tail=20 | grep alerthub`
