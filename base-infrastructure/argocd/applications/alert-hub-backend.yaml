@@ -20,6 +20,7 @@ spec:
           environment: playground
           ingress:
             host: "alerthub-sandbox-api.ifrc.org"
+            className: traefik
             tls:
               secretName: "alerthub-helm-secret-cert"
           env:
