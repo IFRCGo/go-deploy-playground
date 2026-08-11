@@ -40,3 +40,16 @@ output "alert_hub_storage_container" {
 #output "site_storage_account" {
 #  value = module.alert_hub_frontend.storage_account_name
 #}
+
+# GO_API
+output "go_api_key_vault_name" {
+  value = module.go_api_vault.key_vault_name
+}
+
+output "go_api_client_id" {
+  value = module.go_api_vault.workload_client_id
+}
+
+output "go_api_storage_container" {
+  value = module.go_api_vault.storage_container_names
+}
