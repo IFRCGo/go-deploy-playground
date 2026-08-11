@@ -34,6 +34,12 @@ variable "secrets" {
   default = {}
 }
 
+variable "vault_admin_ids" {
+  description = "the Azure principals that shall have access to the vault"
+  type        = list(string)
+  default     = []
+}
+
 variable "service_account_name" {
   type    = string
   default = "service-token-reader"

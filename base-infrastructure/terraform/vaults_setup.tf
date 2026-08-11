@@ -1,4 +1,10 @@
 locals {
+  user_principal_ids = {
+    tc_navin  = "c31baae7-afbf-4ad3-8e01-5abbd68adb16"
+    tc_ranjan = "fc0ebb01-c8f1-456b-a7a5-0a2d6c79e6d9"
+    tc_sushil = "fd7b3704-8168-4b27-901c-f984b6b82c9a"
+  }
+
   alert_hub_db_name = "alerthubplaygrounddb"
   go_api_db_name    = "goapiplaygrounddb"
 }
@@ -22,6 +28,11 @@ module "alert_hub_vault" {
     DB_HOST     = azurerm_postgresql_flexible_server.ifrc.fqdn
     DB_NAME     = local.alert_hub_db_name
   }
+
+  vault_admin_ids = [
+    local.user_principal_ids.tc_navin,
+    local.user_principal_ids.tc_sushil,
+  ]
 
   storage_config = {
     container_refs = [
@@ -64,6 +75,11 @@ module "go_api_vault" {
     DJANGO_DB_NAME = local.go_api_db_name
     DJANGO_DB_PORT = "5432"
   }
+
+  vault_admin_ids = [
+    local.user_principal_ids.tc_navin,
+    local.user_principal_ids.tc_sushil,
+  ]
 
   storage_config = {
     # NOTE: Both are read anonymously: the application hands out plain blob URLs for media, and Django templates point at the static container directly.
