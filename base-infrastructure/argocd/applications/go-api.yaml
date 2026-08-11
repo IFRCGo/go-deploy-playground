@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: go-api
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/ifrcgo
+    chart: ifrcgo-dev-helm
+    targetRevision: 0.0.2-feature-banjo-stack.c6e254bf
+    helm:
+      valueFiles:
+        - values/traefik.yaml
+        - values/operators/dragonfly.yaml
+        - values/operators/elasticsearch.yaml
+        - values/go-deploy/base.yaml
+        - values/go-deploy/sandbox.yaml
+      valuesObject:
+        app:
+          fullnameOverride: go-api
+          api:
+            ingress:
+              host: "go-sandbox-api.ifrc.org"
+          env:
+            API_FQDN: "https://go-sandbox-api.ifrc.org"
+            FRONTEND_URL: "https://go-sandbox.ifrc.org"
+            SESSION_COOKIE_DOMAIN: ".ifrc.org"
+            CSRF_COOKIE_DOMAIN: ".ifrc.org"
+            # Azure Blob Storage
+            AZURE_STORAGE_ENABLED: "true"
+            AZURE_TENANT_ID: a2b53be5-734e-4e6c-ab0d-d184f60fd917
+            AZURE_CLIENT_ID: deaa5c0d-b558-4381-af44-f9e499db4aba
+            AZURE_STORAGE_MANAGED_IDENTITY: "true"
+            AZURE_STORAGE_ACCOUNT: goplaygroundstorage
+            AZURE_STORAGE_MEDIA_CONTAINER: go-api-playground-media-container
+            AZURE_STORAGE_STATIC_CONTAINER: go-api-playground-static-container
+          cronjobs:
+            enabled: true
+            jobs: [ ]  # NOTE: Disabled all jobs by default for now - Lots of heavy jobs by default
+          serviceAccount:
+            annotations:
+              azure.workload.identity/client-id: "deaa5c0d-b558-4381-af44-f9e499db4aba"
+          secretsStoreCsiDriver:
+            parameters:
+              clientID: "deaa5c0d-b558-4381-af44-f9e499db4aba"
+              keyvaultName: "go-api-playground-key-va"
+              tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: go-api
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
