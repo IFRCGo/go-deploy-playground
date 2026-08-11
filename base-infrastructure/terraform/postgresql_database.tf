@@ -12,7 +12,7 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
   name                          = "ifrc-${var.environment}-psql-flexible-server"
   resource_group_name           = data.azurerm_resource_group.go_resource_group.name
   location                      = data.azurerm_resource_group.go_resource_group.location
-  version                       = "13"
+  version                       = "16"
   administrator_login           = var.psql_administrator_login
   administrator_password        = random_password.db_admin.result
   backup_retention_days         = 35
