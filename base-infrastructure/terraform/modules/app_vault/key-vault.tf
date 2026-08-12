@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "app_kv" {
     "/-+$/", ""
   ))
 
-  enable_rbac_authorization  = true
+  rbac_authorization_enabled = true
   location                   = data.azurerm_resource_group.app_rg.location
   resource_group_name        = data.azurerm_resource_group.app_rg.name
   sku_name                   = "standard"

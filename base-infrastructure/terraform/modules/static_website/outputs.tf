@@ -1,6 +1,6 @@
 # Outputs for GitHub Actions secrets
 output "azure_client_id" {
-  value     = azuread_application.github_actions.application_id
+  value     = azuread_application.github_actions.client_id
   sensitive = true
 }
 

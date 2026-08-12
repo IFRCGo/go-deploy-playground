@@ -1,7 +1,7 @@
 provider "azurerm" {
   features {}
 
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
 }
 
 resource "azurerm_dns_zone" "ifrc" {
@@ -18,7 +18,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
 
   default_node_pool {
     name                        = "default"
-    enable_auto_scaling         = true
+    auto_scaling_enabled        = true
     max_count                   = 5
     min_count                   = 1
     temporary_name_for_rotation = "tempdefault"
