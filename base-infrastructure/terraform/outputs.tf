@@ -24,6 +24,11 @@ output "traefik_public_ip" {
   value = azurerm_public_ip.traefik.ip_address
 }
 
+# SSH bastion endpoint — `ssh -p 2222 user@<ip>` (see bastion.tf)
+output "bastion_public_ip" {
+  value = azurerm_public_ip.bastion.ip_address
+}
+
 # ALERT_HUB
 output "alert_hub_key_vault_name" {
   value = module.alert_hub_vault.key_vault_name
