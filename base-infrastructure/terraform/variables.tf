@@ -19,5 +19,6 @@ variable "psql_administrator_login" {
 
 
 locals {
+  vnet_cidr       = "10.0.0.0/8"
   aks_subnet_cidr = "10.1.0.0/16"
 }

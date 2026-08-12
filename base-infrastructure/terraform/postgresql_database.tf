@@ -48,8 +48,8 @@ resource "azurerm_postgresql_flexible_server_configuration" "extensions" {
 resource "azurerm_postgresql_flexible_server_firewall_rule" "vnet_rule" {
   name             = "go-${var.environment}-psql-vnet-access-fw-rule"
   server_id        = azurerm_postgresql_flexible_server.ifrc.id
-  start_ip_address = cidrhost(azurerm_virtual_network.app.address_space[0], 0)
-  end_ip_address   = cidrhost(azurerm_virtual_network.app.address_space[0], -1)
+  start_ip_address = cidrhost(local.vnet_cidr, 0)
+  end_ip_address   = cidrhost(local.vnet_cidr, -1)
 }
 
 # For a D2s_v3 (8GB RAM) instance
