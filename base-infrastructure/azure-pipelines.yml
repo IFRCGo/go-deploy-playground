@@ -1,7 +1,7 @@
 trigger:
 - main
 
-# no PR triggers
+# Validates every non-draft PR; the plan step itself only runs when the PR targets main.
 pr:
   drafts: "false"
 
