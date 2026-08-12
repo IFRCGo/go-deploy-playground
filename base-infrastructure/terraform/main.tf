@@ -40,6 +40,9 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     secret_rotation_interval = "1m"
   }
 
+  # Nodes take Azure's weekly OS image upgrades.
+  node_os_upgrade_channel = "NodeImage"
+
   oidc_issuer_enabled               = true
   private_cluster_enabled           = false
   role_based_access_control_enabled = true
