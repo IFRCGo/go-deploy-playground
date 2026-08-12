@@ -10,15 +10,24 @@ variable "cluster_oidc_issuer_url" {
   type = string
 }
 
-variable "database_server_id" {
-  type    = any
-  default = null
-}
+variable "database_config" {
+  description = "Database to create on an existing PostgreSQL flexible server"
 
-variable "database_name" {
-  type        = string
-  default     = null
-  description = "Override the computed database name. If null, uses app_name + environment + db"
+  type = object(
+    {
+      enabled   = bool
+      server_id = any
+
+      # Overrides the computed name. If null, uses app_name + environment + db
+      name = string
+    }
+  )
+
+  default = {
+    enabled   = false
+    server_id = null
+    name      = null
+  }
 }
 
 variable "environment" {
