@@ -11,6 +11,12 @@ resource "azurerm_subnet" "app" {
   resource_group_name  = data.azurerm_resource_group.go_resource_group.name
   service_endpoints    = ["Microsoft.KeyVault"]
   virtual_network_name = azurerm_virtual_network.app.name
+
+  # AKS attaches its own route table to this subnet, so ARM validates
+  # `Microsoft.Network/routeTables/join/action` against the cluster's node resource
+  # group on every subnet write — an action the Terraform principal does not hold.
+  # Holding this value keeps the subnet out of the diff.
+  private_endpoint_network_policies = "Enabled"
 }
 
 resource "azurerm_subnet" "database" {
