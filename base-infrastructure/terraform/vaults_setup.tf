@@ -46,9 +46,8 @@ module "alert_hub_vault" {
       }
     ]
 
-    enabled              = true
-    storage_account_id   = azurerm_storage_account.app_storage.id
-    storage_account_name = azurerm_storage_account.app_storage.name
+    enabled            = true
+    storage_account_id = azurerm_storage_account.app_storage.id
   }
 
   vault_subnet_ids = [azurerm_subnet.app.id]
@@ -94,9 +93,8 @@ module "go_api_vault" {
       }
     ]
 
-    enabled              = true
-    storage_account_id   = azurerm_storage_account.app_storage.id
-    storage_account_name = azurerm_storage_account.app_storage.name
+    enabled            = true
+    storage_account_id = azurerm_storage_account.app_storage.id
   }
 
   vault_subnet_ids = [azurerm_subnet.app.id]

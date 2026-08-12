@@ -3,7 +3,7 @@ resource "azurerm_storage_container" "app_container" {
   count = var.storage_config.enabled ? length(var.storage_config.container_refs) : 0
 
   name                  = lower("${var.app_name}-${var.environment}-${var.storage_config.container_refs[count.index].container_ref}-container")
-  storage_account_name  = var.storage_config.storage_account_name
+  storage_account_id    = var.storage_config.storage_account_id
   container_access_type = var.storage_config.container_refs[count.index].access_type
 }
 
