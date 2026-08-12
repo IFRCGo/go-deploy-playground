@@ -24,6 +24,5 @@ resource "azurerm_federated_identity_credential" "cred" {
   audience                  = ["api://AzureADTokenExchange"]
   issuer                    = var.cluster_oidc_issuer_url
   user_assigned_identity_id = azurerm_user_assigned_identity.workload.id
-  resource_group_name       = var.resource_group_name
   subject                   = "system:serviceaccount:${var.cluster_namespace}:${var.service_account_name}"
 }
