@@ -7,12 +7,19 @@ resource "random_password" "db_admin" {
   }
 }
 
+locals {
+  # `name` forces a new server, so raising this re-creates the server along with every
+  # database on it.
+  db_generation = 2
+}
+
 # PostgreSQL Server Configuration
 resource "azurerm_postgresql_flexible_server" "ifrc" {
-  name                          = "ifrc-${var.environment}-psql-flexible-server"
-  resource_group_name           = data.azurerm_resource_group.go_resource_group.name
-  location                      = data.azurerm_resource_group.go_resource_group.location
-  # NOTE: Changing `version` may replaces the server and destroys every database on it.
+  name                = "ifrc-${var.environment}-psql-flexible-server-${local.db_generation}"
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+  location            = data.azurerm_resource_group.go_resource_group.location
+  # Raising `version` upgrades the server in place and keeps its databases. The upgrade
+  # is irreversible and takes the server offline for a period that scales with its size.
   version                       = "18"
   administrator_login           = var.psql_administrator_login
   administrator_password        = random_password.db_admin.result
