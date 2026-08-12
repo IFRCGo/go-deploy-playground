@@ -52,6 +52,12 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     ManagedBy   = "IFRCGo"
   }
 
+  # Inert while `force_upgrade_enabled` is false, but the provider rejects removing the
+  # block once the cluster carries it.
+  upgrade_override {
+    force_upgrade_enabled = false
+  }
+
   workload_identity_enabled = true
 }
 
