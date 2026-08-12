@@ -15,9 +15,11 @@ module "alert_hub_vault" {
   app_name                = "alert-hub"
   cluster_namespace       = "alert-hub"
   cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
-  # NOTE: Use database_config pattern instead?
-  database_server_id = azurerm_postgresql_flexible_server.ifrc.id
-  database_name      = local.alert_hub_db_name
+  database_config = {
+    enabled   = true
+    server_id = azurerm_postgresql_flexible_server.ifrc.id
+    name      = local.alert_hub_db_name
+  }
 
   environment         = var.environment
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
@@ -59,8 +61,11 @@ module "go_api_vault" {
   app_name                = "go-api"
   cluster_namespace       = "go-api"
   cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
-  database_server_id      = azurerm_postgresql_flexible_server.ifrc.id
-  database_name           = local.go_api_db_name
+  database_config = {
+    enabled   = true
+    server_id = azurerm_postgresql_flexible_server.ifrc.id
+    name      = local.go_api_db_name
+  }
 
   environment         = var.environment
   resource_group_name = data.azurerm_resource_group.go_resource_group.name

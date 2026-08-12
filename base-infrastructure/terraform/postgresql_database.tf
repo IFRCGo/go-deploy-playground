@@ -12,7 +12,8 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
   name                          = "ifrc-${var.environment}-psql-flexible-server"
   resource_group_name           = data.azurerm_resource_group.go_resource_group.name
   location                      = data.azurerm_resource_group.go_resource_group.location
-  version                       = "16" # inert — see lifecycle below
+  # NOTE: Changing `version` may replaces the server and destroys every database on it.
+  version                       = "18"
   administrator_login           = var.psql_administrator_login
   administrator_password        = random_password.db_admin.result
   backup_retention_days         = 35
@@ -22,16 +23,6 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
   private_dns_zone_id           = azurerm_private_dns_zone.postgres.id
   public_network_access_enabled = false
   zone                          = 1
-
-  # The server runs PostgreSQL 18. This provider cannot express a version above 16, and
-  # replaces the server — destroying every database on it — whenever `version` changes,
-  # so major upgrades run out of band via `az postgres flexible-server upgrade` and the
-  # attribute is held out of the diff.
-  lifecycle {
-    ignore_changes = [
-      version
-    ]
-  }
 
   depends_on = [
     azurerm_private_dns_zone_virtual_network_link.postgres
