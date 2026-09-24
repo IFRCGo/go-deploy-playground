@@ -40,6 +40,18 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     secret_rotation_interval = "1m"
   }
 
+  # Mirrors the live cluster (kubenet, no network policy) so only the outbound IP changes;
+  # a plugin mismatch here would replace the cluster.
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard"
+    outbound_type     = "loadBalancer"
+
+    load_balancer_profile {
+      outbound_ip_address_ids = [azurerm_public_ip.egress.id]
+    }
+  }
+
   # Nodes take Azure's weekly OS image upgrades.
   node_os_upgrade_channel = "NodeImage"
 

@@ -24,6 +24,11 @@ output "traefik_public_ip" {
   value = azurerm_public_ip.traefik.ip_address
 }
 
+# Cluster outbound (egress) IP, the source address external services see (see ip.tf)
+output "egress_public_ip" {
+  value = azurerm_public_ip.egress.ip_address
+}
+
 # SSH bastion endpoint — `ssh -p 2222 user@<ip>` (see bastion.tf)
 output "bastion_public_ip" {
   value = azurerm_public_ip.bastion.ip_address
