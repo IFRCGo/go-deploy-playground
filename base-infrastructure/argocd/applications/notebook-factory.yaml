@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notebook-factory
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # https://github.com/developmentseed/notebook-factory/tree/main/helm
+    repoURL: ghcr.io/developmentseed/charts
+    chart: notebook-factory
+    targetRevision: 0.2.0-gTODO # TODO: first chart published with workload identity support
+    helm:
+      valuesObject:
+        host: notebook-factory-sandbox.ifrc.org
+        ingress:
+          className: traefik
+        env:
+          PUBLISHED_STORAGE_BACKEND: azure
+          AZURE_ACCOUNT_NAME: goplaygroundstorage
+          AZURE_CONTAINER: notebook-factory-playground-published-container
+        publishedProxy:
+          upstream: https://goplaygroundstorage.blob.core.windows.net/notebook-factory-playground-published-container
+        podLabels:
+          azure.workload.identity/use: "true"
+        serviceAccount:
+          annotations:
+            azure.workload.identity/client-id: "TODO" # terraform output notebook_factory_client_id
+        secretProviderClass:
+          enabled: true
+          clientID: "TODO" # terraform output notebook_factory_client_id
+          tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+          keyvaultName: "notebook-factory-playgro" # terraform output notebook_factory_key_vault_name
+          keys: [DATABASE_URL, SECRET_KEY]
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: notebook-factory
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
