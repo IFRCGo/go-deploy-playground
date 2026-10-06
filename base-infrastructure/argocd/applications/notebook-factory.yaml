@@ -11,7 +11,7 @@ spec:
     # https://github.com/developmentseed/notebook-factory/tree/main/helm
     repoURL: ghcr.io/developmentseed/charts
     chart: notebook-factory
-    targetRevision: 0.2.0-gTODO # TODO: first chart published with workload identity support
+    targetRevision: 0.2.0-gee9c990
     helm:
       valuesObject:
         host: notebook-factory-sandbox.ifrc.org
