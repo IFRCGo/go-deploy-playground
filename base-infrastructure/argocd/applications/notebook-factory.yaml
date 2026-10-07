@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notebook-factory
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # https://github.com/developmentseed/notebook-factory/tree/main/helm
+    repoURL: ghcr.io/developmentseed/charts
+    chart: notebook-factory
+    targetRevision: 0.2.0-gee9c990
+    helm:
+      valuesObject:
+        host: notebook-factory-staging.montandondata.org
+        ingress:
+          className: traefik
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+        env:
+          PUBLISHED_STORAGE_BACKEND: azure
+          AZURE_ACCOUNT_NAME: goplaygroundstorage
+          AZURE_CONTAINER: notebook-factory-playground-published-container
+        publishedProxy:
+          upstream: https://goplaygroundstorage.blob.core.windows.net/notebook-factory-playground-published-container
+        podLabels:
+          azure.workload.identity/use: "true"
+        serviceAccount:
+          annotations:
+            azure.workload.identity/client-id: "a34f295b-e5b1-4829-b22d-3fa0e0daad11"
+        secretProviderClass:
+          enabled: true
+          clientID: "a34f295b-e5b1-4829-b22d-3fa0e0daad11"
+          tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
+          keyvaultName: "notebook-factory-playgro"
+          keys: [DATABASE_URL, SECRET_KEY]
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: notebook-factory
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
