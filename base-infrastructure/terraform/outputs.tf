@@ -63,3 +63,16 @@ output "go_api_client_id" {
 output "go_api_storage_container" {
   value = module.go_api_vault.storage_container_names
 }
+
+# NOTEBOOK_FACTORY
+output "notebook_factory_key_vault_name" {
+  value = module.notebook_factory_vault.key_vault_name
+}
+
+output "notebook_factory_client_id" {
+  value = module.notebook_factory_vault.workload_client_id
+}
+
+output "notebook_factory_storage_container" {
+  value = module.notebook_factory_vault.storage_container_names
+}

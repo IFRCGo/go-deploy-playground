@@ -5,8 +5,9 @@ locals {
     tc_sushil = "fd7b3704-8168-4b27-901c-f984b6b82c9a"
   }
 
-  alert_hub_db_name = "alerthubplaygrounddb"
-  go_api_db_name    = "goapiplaygrounddb"
+  alert_hub_db_name        = "alerthubplaygrounddb"
+  go_api_db_name           = "goapiplaygrounddb"
+  notebook_factory_db_name = "notebookfactoryplaygrounddb"
 }
 
 module "alert_hub_vault" {
@@ -94,6 +95,56 @@ module "go_api_vault" {
       },
       {
         container_ref = "static"
+        access_type   = "blob"
+      }
+    ]
+
+    enabled            = true
+    storage_account_id = azurerm_storage_account.app_storage.id
+  }
+
+  vault_subnet_ids = [azurerm_subnet.app.id]
+}
+
+resource "random_password" "notebook_factory_secret_key" {
+  length  = 50
+  special = false
+}
+
+module "notebook_factory_vault" {
+  source = "./modules/app_vault"
+
+  app_name          = "notebook-factory"
+  cluster_namespace = "notebook-factory"
+  # The chart names its ServiceAccount after the release.
+  service_account_name    = "notebook-factory"
+  cluster_oidc_issuer_url = azurerm_kubernetes_cluster.go_kubernetes_cluster.oidc_issuer_url
+  database_config = {
+    enabled   = true
+    server_id = azurerm_postgresql_flexible_server.ifrc.id
+    name      = local.notebook_factory_db_name
+  }
+
+  environment         = var.environment
+  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+
+  # Should match secretProviderClass.keys in the notebook-factory chart. Blob access uses the
+  # workload identity, so there is no storage key.
+  secrets = {
+    DATABASE_URL = "postgis://${var.psql_administrator_login}:${urlencode(random_password.db_admin.result)}@${azurerm_postgresql_flexible_server.ifrc.fqdn}:5432/${local.notebook_factory_db_name}?sslmode=require"
+    SECRET_KEY   = random_password.notebook_factory_secret_key.result
+  }
+
+  vault_admin_ids = [
+    local.user_principal_ids.tc_navin,
+    local.user_principal_ids.tc_sushil,
+  ]
+
+  storage_config = {
+    # NOTE: Read anonymously through the chart's published-proxy; the app writes rendered runs here.
+    container_refs = [
+      {
+        container_ref = "published"
         access_type   = "blob"
       }
     ]
