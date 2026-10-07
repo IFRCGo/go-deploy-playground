@@ -14,9 +14,11 @@ spec:
     targetRevision: 0.2.0-gee9c990
     helm:
       valuesObject:
-        host: notebook-factory-sandbox.ifrc.org
+        host: notebook-factory-staging.montandondata.org
         ingress:
           className: traefik
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
         env:
           PUBLISHED_STORAGE_BACKEND: azure
           AZURE_ACCOUNT_NAME: goplaygroundstorage
