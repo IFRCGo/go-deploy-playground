@@ -5,31 +5,53 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: v1.21.1
-    helm:
-      valuesObject:
-        crds:
-          enabled: true
-        webhook:
-          validatingWebhookConfiguration:
-            namespaceSelector:
-              matchExpressions:
-                - key: cert-manager.io/disable-validation
-                  operator: NotIn
-                  values:
-                    - "true"
-                # NOTE: these are added by AKS - adding here to avoid out-of-sync issue in argocd
-                - key: control-plane
-                  operator: NotIn
-                  values:
-                    - "true"
-                - key: kubernetes.azure.com/managedby
-                  operator: NotIn
-                  values:
-                    - aks
+  sources:
+    - repoURL: https://charts.jetstack.io
+      chart: cert-manager
+      targetRevision: v1.21.1
+      helm:
+        valuesObject:
+          crds:
+            enabled: true
+          webhook:
+            validatingWebhookConfiguration:
+              namespaceSelector:
+                matchExpressions:
+                  - key: cert-manager.io/disable-validation
+                    operator: NotIn
+                    values:
+                      - "true"
+                  # NOTE: these are added by AKS - adding here to avoid out-of-sync issue in argocd
+                  - key: control-plane
+                    operator: NotIn
+                    values:
+                      - "true"
+                  - key: kubernetes.azure.com/managedby
+                    operator: NotIn
+                    values:
+                      - aks
+    - repoURL: ghcr.io/toggle-corp/helm-charts
+      chart: raw
+      targetRevision: v0.1.0
+      helm:
+        valuesObject:
+          resources:
+            - apiVersion: cert-manager.io/v1
+              kind: ClusterIssuer
+              metadata:
+                name: letsencrypt-prod
+                annotations:
+                  argocd.argoproj.io/sync-wave: "1"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                acme:
+                  server: https://acme-v02.api.letsencrypt.org/directory
+                  privateKeySecretRef:
+                    name: letsencrypt-prod-account-key
+                  solvers:
+                    - http01:
+                        ingress:
+                          ingressClassName: traefik
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
