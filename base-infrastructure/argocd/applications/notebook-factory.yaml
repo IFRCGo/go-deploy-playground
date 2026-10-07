@@ -27,12 +27,12 @@ spec:
           azure.workload.identity/use: "true"
         serviceAccount:
           annotations:
-            azure.workload.identity/client-id: "TODO" # terraform output notebook_factory_client_id
+            azure.workload.identity/client-id: "a34f295b-e5b1-4829-b22d-3fa0e0daad11"
         secretProviderClass:
           enabled: true
-          clientID: "TODO" # terraform output notebook_factory_client_id
+          clientID: "a34f295b-e5b1-4829-b22d-3fa0e0daad11"
           tenantId: "a2b53be5-734e-4e6c-ab0d-d184f60fd917"
-          keyvaultName: "notebook-factory-playgro" # terraform output notebook_factory_key_vault_name
+          keyvaultName: "notebook-factory-playgro"
           keys: [DATABASE_URL, SECRET_KEY]
   destination:
     server: https://kubernetes.default.svc
