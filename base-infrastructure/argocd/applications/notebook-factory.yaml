@@ -11,7 +11,7 @@ spec:
     # https://github.com/developmentseed/notebook-factory/tree/main/helm
     repoURL: ghcr.io/developmentseed/charts
     chart: notebook-factory
-    targetRevision: 0.2.0-gbd5126f
+    targetRevision: 0.2.0-gf5fc5a8
     helm:
       valuesObject:
         host: notebook-factory-staging.montandondata.org
