@@ -141,10 +141,15 @@ module "notebook_factory_vault" {
   ]
 
   storage_config = {
-    # NOTE: Read anonymously through the chart's published-proxy; the app writes rendered runs here.
     container_refs = [
       {
+        # NOTE: Read anonymously through the chart's published-proxy; the app writes rendered runs here.
         container_ref = "published"
+        access_type   = "blob"
+      },
+      {
+        # NOTE: Manually uploaded datasets. eg: Hazard layer's COG dataset from MapAction
+        container_ref = "static-datasets"
         access_type   = "blob"
       }
     ]
