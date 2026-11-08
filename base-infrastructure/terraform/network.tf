@@ -3,6 +3,8 @@ resource "azurerm_virtual_network" "app" {
   address_space       = [local.vnet_cidr]
   location            = data.azurerm_resource_group.go_resource_group.location
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+
+  tags = local.base_tags
 }
 
 resource "azurerm_subnet" "app" {
@@ -42,6 +44,8 @@ resource "azurerm_subnet" "database" {
 resource "azurerm_private_dns_zone" "postgres" {
   name                = "${var.environment}.postgres.database.azure.com"
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+
+  tags = local.base_tags
 }
 
 # Create vitual network link
@@ -50,6 +54,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
   private_dns_zone_name = azurerm_private_dns_zone.postgres.name
   virtual_network_id    = azurerm_virtual_network.app.id
   resource_group_name   = data.azurerm_resource_group.go_resource_group.name
+
+  tags = local.base_tags
 
   depends_on = [
     azurerm_subnet.database

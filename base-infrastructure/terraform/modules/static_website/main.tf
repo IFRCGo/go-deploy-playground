@@ -36,6 +36,8 @@ resource "azurerm_storage_account" "static_site" {
       max_age_in_seconds = 3600
     }
   }
+
+  tags = var.tags
 }
 
 # Create CDN Profile
@@ -44,6 +46,8 @@ resource "azurerm_cdn_profile" "static_site" {
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = "Standard_Microsoft"
+
+  tags = var.tags
 }
 
 # Create CDN Endpoint
@@ -72,4 +76,6 @@ resource "azurerm_cdn_endpoint" "static_site" {
       protocol      = "Https"
     }
   }
+
+  tags = var.tags
 }

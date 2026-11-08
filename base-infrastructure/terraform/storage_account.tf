@@ -6,7 +6,5 @@ resource "azurerm_storage_account" "app_storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = local.base_tags
 }

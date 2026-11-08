@@ -4,4 +4,6 @@ resource "azurerm_container_registry" "shared" {
   location            = data.azurerm_resource_group.app_rg.location
   #sku                 = "Basic"
   sku = "Standard"
+
+  tags = var.tags
 }

@@ -6,4 +6,5 @@
 #  github_repo         = "alert-hub-web-app"
 #  location            = data.azurerm_resource_group.go_resource_group.location
 #  resource_group_name = data.azurerm_resource_group.go_resource_group.name
+#  tags                = local.base_tags
 #}

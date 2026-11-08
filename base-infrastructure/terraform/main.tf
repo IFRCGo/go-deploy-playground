@@ -4,9 +4,17 @@ provider "azurerm" {
   resource_provider_registrations = "none"
 }
 
+locals {
+  aks_tags = merge(local.base_tags, {
+    ManagedBy = "IFRCGo"
+  })
+}
+
 resource "azurerm_dns_zone" "ifrc" {
   name                = "ifrc.org"
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+
+  tags = local.base_tags
 }
 
 resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
@@ -22,6 +30,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
     max_count                   = 5
     min_count                   = 1
     temporary_name_for_rotation = "tempdefault"
+    tags                        = local.aks_tags
 
     upgrade_settings {
       max_surge = "10%"
@@ -59,10 +68,7 @@ resource "azurerm_kubernetes_cluster" "go_kubernetes_cluster" {
   private_cluster_enabled           = false
   role_based_access_control_enabled = true
 
-  tags = {
-    Environment = var.environment
-    ManagedBy   = "IFRCGo"
-  }
+  tags = local.aks_tags
 
   # Inert while `force_upgrade_enabled` is false, but the provider rejects removing the
   # block once the cluster carries it.

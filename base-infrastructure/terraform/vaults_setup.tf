@@ -24,6 +24,7 @@ module "alert_hub_vault" {
 
   environment         = var.environment
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+  tags                = local.base_tags
 
   secrets = {
     DB_USER     = var.psql_administrator_login
@@ -70,6 +71,7 @@ module "go_api_vault" {
 
   environment         = var.environment
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+  tags                = local.base_tags
 
   # Should match secretsKeyMap entry from https://github.com/IFRCGo/go-api/blob/develop/deploy/helm/values/go-deploy/base.yaml
   # NOTE: base-infrastructure/terraform/modules/app_vault/secrets.tf replaces `_` -> `-`
@@ -127,6 +129,7 @@ module "notebook_factory_vault" {
 
   environment         = var.environment
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+  tags                = local.base_tags
 
   # Should match secretProviderClass.keys in the notebook-factory chart. Blob access uses the
   # workload identity, so there is no storage key.
