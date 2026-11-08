@@ -31,6 +31,8 @@ resource "azurerm_postgresql_flexible_server" "ifrc" {
   public_network_access_enabled = false
   zone                          = 1
 
+  tags = local.base_tags
+
   depends_on = [
     azurerm_private_dns_zone_virtual_network_link.postgres
   ]

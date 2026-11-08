@@ -10,4 +10,5 @@ module "go_container_registry" {
   ]
 
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
+  tags                = local.base_tags
 }

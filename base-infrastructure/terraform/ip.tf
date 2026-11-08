@@ -26,9 +26,7 @@ resource "azurerm_public_ip" "egress" {
   allocation_method   = "Static"
   sku                 = "Standard"
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = local.base_tags
 }
 
 # SSH bastion Public IP (see bastion.tf) — reserved so the bastion endpoint stays stable
@@ -40,7 +38,5 @@ resource "azurerm_public_ip" "bastion" {
   allocation_method   = "Static"
   sku                 = "Standard"
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = local.base_tags
 }
