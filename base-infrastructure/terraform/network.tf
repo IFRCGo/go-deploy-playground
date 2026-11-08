@@ -4,7 +4,13 @@ resource "azurerm_virtual_network" "app" {
   location            = data.azurerm_resource_group.go_resource_group.location
   resource_group_name = data.azurerm_resource_group.go_resource_group.name
 
-  tags = local.base_tags
+  # A vnet write includes its subnets, so ARM validates
+  # `Microsoft.Network/routeTables/join/action` on the AKS route table in the cluster's
+  # node resource group, an action the Terraform principal does not hold. Tags are set
+  # by hand with `az tag update` (see AGENTS.md).
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "azurerm_subnet" "app" {
