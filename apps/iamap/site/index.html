@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GO Interactive IA Map 2026</title>
+<meta name="description" content="Interactive information architecture map of the IFRC GO platform, October 2026.">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="brand">
+  <div class="orb" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="brand-l">
+      <img class="lockup" src="assets/go-ifrc-logo.svg" alt="IFRC GO and IFRC logos" width="194" height="46">
+      <h1>Information Architecture <em>2026</em></h1>
+      <p>IFRC GO Information Architecture map as of October 2026. It shows the live features and highlights a few planned and upcoming ones. Select any page to see where it leads and what links to it.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<section class="wrap sitemap" aria-labelledby="smh">
+  <div class="sm-head"><h2 id="smh">Sitemap</h2><p>The GO navigation as users see it. Select any item to jump to it on the map below.</p></div>
+  <div class="sm-scroll"><div class="sm-unit" id="sitemap"></div></div>
+</section>
+
+<div class="bar">
+  <div class="wrap" style="position:relative">
+    <nav class="secnav" id="secnav" aria-label="Sections"></nav>
+    <div class="tools">
+      <label class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="Search pages, tabs, forms" aria-label="Search the map" autocomplete="off"><output id="qn"></output></label>
+      <div class="seg" role="group" aria-label="Show">
+        <button type="button" data-view="all" aria-pressed="true">All</button>
+        <button type="button" data-view="live" aria-pressed="false">Live</button>
+        <button type="button" data-view="upcoming" aria-pressed="false">Upcoming</button>
+      </div>
+      <button type="button" class="lgbtn" id="lgbtn" aria-expanded="false" aria-controls="legend"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Legend</button>
+    </div>
+    <div class="legend" id="legend" hidden role="dialog" aria-label="Legend">
+      <h2>Legend</h2>
+      <p>How to read the cards on this map.</p>
+      <h3>Kinds of screen</h3>
+      <div class="lg-list">
+        <div><i class="lg-sw"></i>Page or tab</div>
+        <div><i class="lg-sw" style="background:var(--surface-2);border:1.5px solid var(--line)"></i>Tab with sub-tabs (grouped box)</div>
+        <div><i class="lg-sw" style="border:2px solid var(--ink)"></i>Menu section (links only, no page)</div>
+        <div><i class="lg-sw" style="border:2px solid var(--red)"></i>Form with steps</div>
+        <div><i class="lg-sw" style="background:var(--surface-2)"></i>Dropdown or list</div>
+        <div><i class="lg-sw" style="background:var(--surface-2);border:2px dotted var(--line)"></i>Overlay (opens over a page)</div>
+        <div><i class="lg-sw" style="border:1.5px dashed var(--line);background:transparent"></i>Shortcut to a page that lives elsewhere</div>
+        <div><i class="lg-sw" style="border-radius:999px"></i>External site</div>
+        <div><i class="lg-sw" style="box-shadow:4px 4px 0 -1px var(--surface),4px 4px 0 0 var(--line)"></i>Repeated page (one template, many pages)</div>
+        <div><i class="lg-sw" style="background:var(--coming-bg);border:1.5px dashed var(--coming)"></i>Upcoming, not live yet</div>
+      </div>
+      <h3>Access and actions</h3>
+      <div class="lg-list">
+        <div><span class="chipacc">Logged in</span><span class="chipacc ifrc">IFRC only</span><span class="chipacc perm">Permissions</span></div>
+        <div><span class="act" style="cursor:default">Action</span>Opens a form or another page</div>
+        <div><span class="act sec" style="cursor:default">Link</span>Secondary link to another page</div>
+        <div><span class="sm-link dd" style="width:auto;padding:0;cursor:default">Dropdown item</span>In the sitemap: not a page</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="main"></main>
+
+<aside class="panel" id="panel" aria-label="Page details" aria-hidden="true">
+  <div class="p-head">
+    <div class="p-crumb" id="pc"></div>
+    <div class="p-title"><h2 id="pt"></h2><button class="p-x" id="px" type="button" aria-label="Close details"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div id="pm" class="n-top" style="margin:0"></div>
+  </div>
+  <div class="p-body" id="pb"></div>
+  <div class="p-share"><label for="plink">Link to this card on the map</label><div><input id="plink" readonly><button type="button" id="pcopy">Copy link</button></div></div>
+</aside>
+
+<footer><div class="wrap"><span><b style="color:var(--red-ink)">GO</b> · IFRC · Information Architecture · October 2026</span><span>Sources: GO web app (live release 7.28.2 and source code), UI and Wires Figma files</span></div></footer>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

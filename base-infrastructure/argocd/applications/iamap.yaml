@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iamap
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # Generic "raw" chart: let us define plain Kubernetes resources inline,
+    # same pattern used for the cert-manager ClusterIssuer.
+    repoURL: ghcr.io/toggle-corp/helm-charts
+    chart: raw
+    targetRevision: v0.1.0
+    helm:
+      valuesObject:
+        resources:
+          - apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: iamap
+              namespace: iamap
+            spec:
+              replicas: 1
+              selector:
+                matchLabels:
+                  app: iamap
+              template:
+                metadata:
+                  labels:
+                    app: iamap
+                spec:
+                  containers:
+                    - name: nginx
+                      # Built from apps/iamap/Dockerfile via: az acr build --registry IfrcgoPlaygroundContainerRegistry --image iamap:latest apps/iamap/
+                      image: ifrcgoplaygroundcontainerregistry.azurecr.io/iamap:latest
+                      ports:
+                        - containerPort: 80
+
+          - apiVersion: v1
+            kind: Service
+            metadata:
+              name: iamap
+              namespace: iamap
+            spec:
+              selector:
+                app: iamap
+              ports:
+                - port: 80
+                  targetPort: 80
+
+          - apiVersion: traefik.io/v1alpha1
+            kind: IngressRoute
+            metadata:
+              name: iamap
+              namespace: iamap
+            spec:
+              entryPoints:
+                - websecure
+              routes:
+                - match: Host(`iamap-sandbox.ifrc.org`)
+                  kind: Rule
+                  services:
+                    - name: iamap
+                      port: 80
+              # No secretName: Traefik terminates TLS with its own self-signed default cert.
+              tls: {}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: iamap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
