@@ -64,8 +64,8 @@ spec:
                   services:
                     - name: iamap
                       port: 80
-              # No secretName: Traefik terminates TLS with its own self-signed default cert.
-              tls: {}
+              tls:
+                secretName: iamap-helm-secret-cert
   destination:
     server: https://kubernetes.default.svc
     namespace: iamap
